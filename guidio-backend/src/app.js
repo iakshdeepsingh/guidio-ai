@@ -1,4 +1,3 @@
-
 import express from "express";
 import cors from "cors";
 import helmet from "helmet";
@@ -44,11 +43,20 @@ export function createApp() {
 
   const allowedOrigins = new Set(env.corsOrigins);
 
+  // Development only: allow the Vite dev server opened from another device on
+  // the same Wi-Fi (for example http://192.168.29.8:5173 on a phone).
+  const LAN_ORIGIN =
+    /^https?:\/\/(localhost|127\.0\.0\.1|10\.\d+\.\d+\.\d+|192\.168\.\d+\.\d+|172\.(1[6-9]|2\d|3[01])\.\d+\.\d+)(:\d+)?$/;
+
   app.use(
     cors({
       origin(origin, callback) {
         // No Origin header: Postman, curl, server-to-server. Clerk still protects the data.
-        if (!origin || allowedOrigins.has(origin)) {
+        if (
+          !origin ||
+          allowedOrigins.has(origin) ||
+          (!env.isProduction && LAN_ORIGIN.test(origin))
+        ) {
           return callback(null, true);
         }
 

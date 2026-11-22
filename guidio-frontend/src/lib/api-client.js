@@ -1,4 +1,3 @@
-
 const rawBaseUrl = import.meta.env.VITE_API_BASE_URL;
 
 if (!rawBaseUrl) {
@@ -6,7 +5,31 @@ if (!rawBaseUrl) {
 }
 
 // Remove trailing slashes.
-export const API_BASE_URL = rawBaseUrl.replace(/\/+$/, "");
+// In development, if the app is opened from another device (a phone using
+// http://192.168.x.x:5173), "localhost" would point at the phone itself.
+// Swap it for the host the page was loaded from, so the same .env works everywhere.
+function resolveBaseUrl(url) {
+  const clean = url.replace(/\/+$/, "");
+
+  if (import.meta.env.DEV && typeof window !== "undefined") {
+    try {
+      const parsed = new URL(clean);
+      const isLoopback = ["localhost", "127.0.0.1"].includes(parsed.hostname);
+      const pageHost = window.location.hostname;
+
+      if (isLoopback && !["localhost", "127.0.0.1"].includes(pageHost)) {
+        parsed.hostname = pageHost;
+        return parsed.origin;
+      }
+    } catch {
+      // Not a valid URL: fall through to the raw value.
+    }
+  }
+
+  return clean;
+}
+
+export const API_BASE_URL = resolveBaseUrl(rawBaseUrl);
 
 const DEFAULT_TIMEOUT_MS = 120_000;
 const DEFAULT_STREAM_CONNECT_TIMEOUT_MS = 30_000;
