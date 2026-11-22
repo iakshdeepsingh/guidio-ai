@@ -40,7 +40,7 @@ const envSchema = z.object({
 
   // Google Gemini (AI Studio key). Optional now: Groq or Ollama can run alone.
   GEMINI_API_KEY: z.string().min(1).optional(),
-  GEMINI_MODEL: z.string().min(1).default("gemini-3.6-flash"),
+  GEMINI_MODEL: z.string().min(1).default("gemini-3.8-flash"),
   GEMINI_BASE_URL: z.string().url().optional(), // advanced / testing only
 
   // Groq (free tier available, check console.groq.com for current limits).

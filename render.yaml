@@ -15,7 +15,7 @@ services:
       - key: CORS_ORIGINS
         value: https://guidio-ai.vercel.app
       - key: GEMINI_MODEL
-        value: gemini-3.6-flash
+        value: gemini-3.8-flash
       - key: GROQ_MODEL
         value: openai/gpt-oss-120b
       - key: AI_PROVIDER_ORDER
