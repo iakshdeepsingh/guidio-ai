@@ -1,12 +1,16 @@
+import { memo } from "react";
 import { ArrowRight } from "lucide-react";
 import { Link } from "react-router";
 import { useAuth } from "@clerk/react";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
+const baseClasses =
+  "group touch-manipulation rounded-full font-medium tracking-[-0.01em] outline-none transition-[color,background-color,border-color,box-shadow,transform] duration-200 focus-visible:ring-2 focus-visible:ring-ring/60 focus-visible:ring-offset-2 active:scale-[0.98] motion-reduce:transition-none motion-reduce:active:scale-100";
+
 const sizeClasses = {
-  md: "h-9 gap-2 px-4",
-  lg: "h-11 gap-2 px-6 text-[0.95rem]",
+  md: "h-9 gap-2 px-4 text-sm",
+  lg: "h-12 gap-2 px-7 text-[1.0625rem]",
 };
 
 /**
@@ -22,7 +26,12 @@ export function CtaLink({
   children,
   ...props
 }) {
-  const classes = cn(buttonVariants({ variant }), sizeClasses[size], className);
+  const classes = cn(
+    buttonVariants({ variant }),
+    baseClasses,
+    sizeClasses[size],
+    className
+  );
 
   if (to) {
     return (
@@ -43,11 +52,12 @@ export function CtaLink({
  * Main call to action. Sends signed-in students to the dashboard and
  * everyone else to sign-up.
  */
-export function PrimaryCta({
+export const PrimaryCta = memo(function PrimaryCta({
   size = "lg",
   variant = "default",
   className,
   label = "Get Started for Free",
+  ...props
 }) {
   const { isLoaded, isSignedIn } = useAuth();
   const signedIn = isLoaded && isSignedIn;
@@ -58,9 +68,13 @@ export function PrimaryCta({
       size={size}
       variant={variant}
       className={className}
+      {...props}
     >
       {signedIn ? "Go to dashboard" : label}
-      <ArrowRight aria-hidden="true" />
+      <ArrowRight
+        aria-hidden="true"
+        className="transition-transform duration-200 group-hover:translate-x-0.5 motion-reduce:transition-none"
+      />
     </CtaLink>
   );
-}
+});
