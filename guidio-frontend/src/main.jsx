@@ -10,7 +10,7 @@ const clerkPublishableKey = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
 
 if (!clerkPublishableKey) {
   throw new Error(
-    "Missing VITE_CLERK_PUBLISHABLE_KEY. Add it to client/.env.local (local) or to the Vercel Environment Variables (production)."
+    "Missing VITE_CLERK_PUBLISHABLE_KEY. Add it to guidio-frontend/.env.local (local) or to the Vercel Environment Variables (production)."
   );
 }
 

@@ -19,6 +19,9 @@ import { QuickActionsCard } from "@/features/dashboard/quick-actions-card";
 import { ReadinessCard } from "@/features/dashboard/readiness-card";
 import { RecentActivityCard } from "@/features/dashboard/recent-activity-card";
 import { useDashboard } from "@/features/dashboard/use-dashboard";
+import { cn } from "@/lib/utils";
+
+const pillButton = "h-12 rounded-full px-6 text-[0.9375rem]";
 
 function DashboardPage() {
   const { user } = useUser();
@@ -32,7 +35,7 @@ function DashboardPage() {
 
   if (status === "error") {
     return (
-      <div className="space-y-6">
+      <div className="space-y-8">
         <PageHeader
           title="Dashboard"
           description="Your progress and recent activity."
@@ -61,7 +64,7 @@ function DashboardPage() {
       : `${metrics.completedInterviews} completed`;
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-8 sm:space-y-10">
       <PageHeader
         title={isNewStudent ? `Welcome, ${firstName}` : `Welcome back, ${firstName}`}
         description={
@@ -72,7 +75,7 @@ function DashboardPage() {
         actions={
           <Link
             to={needsProfile ? "/onboarding" : "/assistant"}
-            className={buttonVariants({ size: "lg" })}
+            className={cn(buttonVariants({ size: "lg" }), pillButton)}
           >
             {needsProfile ? "Complete profile" : "Ask AI Assistant"}
             <ArrowRight aria-hidden="true" />
@@ -81,7 +84,10 @@ function DashboardPage() {
       />
 
       {/* Key numbers. An em dash means there is no real data yet. */}
-      <section aria-label="Key numbers" className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+      <section
+        aria-label="Key numbers"
+        className="grid gap-3 sm:grid-cols-2 sm:gap-4 xl:grid-cols-4"
+      >
         <StatCard
           label="Skill match"
           icon={BarChart3}
@@ -123,15 +129,15 @@ function DashboardPage() {
         />
       </section>
 
-      <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+      <section className="grid gap-3 sm:gap-4 md:grid-cols-2 xl:grid-cols-3">
         <ReadinessCard score={getReadinessScore(dashboard)} />
         <ProfileCompletionCard profile={profile} />
         <div className="min-w-0 md:col-span-2 xl:col-span-1 [&>*]:h-full">
-        <NextStepsCard dashboard={dashboard} />
-</div>
+          <NextStepsCard dashboard={dashboard} />
+        </div>
       </section>
 
-      <section className="grid gap-4 lg:grid-cols-2">
+      <section className="grid gap-3 sm:gap-4 lg:grid-cols-2">
         <LatestResultsCard latest={latest} />
         <RecentActivityCard activities={activities} />
       </section>

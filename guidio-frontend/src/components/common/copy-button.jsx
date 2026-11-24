@@ -48,10 +48,12 @@ export function CopyButton({
       onClick={handleCopy}
       aria-label={ariaLabel}
       className={cn(
-        "inline-flex items-center gap-1.5 rounded-md px-2 py-1.5 text-xs font-medium transition-colors",
+        "inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-medium tracking-[-0.01em] outline-none transition-all duration-200 active:scale-95 motion-reduce:transition-none motion-reduce:active:scale-100",
+        "focus-visible:ring-2",
         tone === "dark"
-          ? "text-neutral-400 hover:bg-white/10 hover:text-white"
-          : "text-muted-foreground hover:bg-muted hover:text-foreground",
+          ? "text-neutral-400 hover:bg-white/10 hover:text-white focus-visible:ring-white/40"
+          : "text-muted-foreground hover:bg-muted hover:text-foreground focus-visible:ring-ring/60",
+        status === "copied" && (tone === "dark" ? "text-white" : "text-foreground"),
         className
       )}
     >

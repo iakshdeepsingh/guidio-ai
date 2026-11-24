@@ -1,5 +1,4 @@
 import { Clock, RefreshCw, TriangleAlert } from "lucide-react";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import { getFriendlyAiError } from "@/lib/ai";
 import { cn } from "@/lib/utils";
@@ -17,19 +16,39 @@ export function AiErrorNotice({ error, onRetry, cooldownSeconds = 0, className }
   }
 
   const friendly = getFriendlyAiError(error);
-  const Icon = friendly.kind === "rate_limited" ? Clock : TriangleAlert;
+  const isRateLimit = friendly.kind === "rate_limited";
+  const Icon = isRateLimit ? Clock : TriangleAlert;
   const waiting = cooldownSeconds > 0;
 
   return (
-    <Alert
-      variant={friendly.kind === "rate_limited" ? "default" : "destructive"}
-      className={cn("items-start", className)}
+    <div
+      role="alert"
+      className={cn(
+        "flex items-start gap-3.5 rounded-[1.5rem] p-4 sm:p-5",
+        isRateLimit ? "bg-muted" : "bg-destructive/10",
+        className
+      )}
     >
-      <Icon aria-hidden="true" />
-      <AlertTitle>{friendly.title}</AlertTitle>
+      <span
+        className={cn(
+          "flex size-10 shrink-0 items-center justify-center rounded-full",
+          isRateLimit
+            ? "bg-foreground text-background"
+            : "bg-destructive text-white"
+        )}
+      >
+        <Icon aria-hidden="true" className="size-[18px]" />
+      </span>
 
-      <AlertDescription className="space-y-3">
-        <p>{friendly.message}</p>
+      <div className="min-w-0 flex-1 space-y-3">
+        <div className="space-y-1">
+          <p className="text-base font-semibold leading-tight tracking-[-0.02em]">
+            {friendly.title}
+          </p>
+          <p className="text-sm leading-6 text-muted-foreground">
+            {friendly.message}
+          </p>
+        </div>
 
         {onRetry ? (
           <Button
@@ -38,12 +57,13 @@ export function AiErrorNotice({ error, onRetry, cooldownSeconds = 0, className }
             size="sm"
             onClick={onRetry}
             disabled={waiting}
+            className="h-9 rounded-full border-foreground/10 bg-background px-4"
           >
             <RefreshCw aria-hidden="true" />
             {waiting ? `Try again in ${cooldownSeconds}s` : "Try again"}
           </Button>
         ) : null}
-      </AlertDescription>
-    </Alert>
+      </div>
+    </div>
   );
 }

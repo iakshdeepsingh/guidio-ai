@@ -4,7 +4,6 @@ import { AiUsageNotice } from "@/components/common/ai-usage-notice";
 import { ErrorState } from "@/components/common/error-state";
 import { PageHeader } from "@/components/common/page-header";
 import { CardSkeleton, PageSkeleton } from "@/components/common/skeletons";
-import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import { ProfileInputsCard } from "@/features/skill-gap/profile-inputs-card";
 import { ReportHistory } from "@/features/skill-gap/report-history";
@@ -50,7 +49,7 @@ function SkillGapPage() {
   else if (cooldown.isCoolingDown) analyzeLabel = `Try again in ${cooldown.remaining}s`;
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-8 sm:space-y-10">
       <PageHeader
         title="Skill Gap Analysis"
         description="Compare the skills you have with your target role, then follow a clear plan to close the gap."
@@ -60,6 +59,7 @@ function SkillGapPage() {
             size="lg"
             onClick={skillGap.generateReport}
             disabled={!canAnalyze || isBusy || cooldown.isCoolingDown}
+            className="h-12 rounded-full px-6 text-[0.9375rem]"
           >
             {isGenerating ? (
               <LoaderCircle aria-hidden="true" className="animate-spin" />
@@ -71,23 +71,28 @@ function SkillGapPage() {
         }
       />
 
-      {generateError ? (
-        <AiErrorNotice
-          error={generateError}
-          onRetry={canAnalyze ? skillGap.generateReport : undefined}
-          cooldownSeconds={cooldown.remaining}
-        />
+      {generateError || reportError ? (
+        <div className="space-y-3">
+          {generateError ? (
+            <AiErrorNotice
+              error={generateError}
+              onRetry={canAnalyze ? skillGap.generateReport : undefined}
+              cooldownSeconds={cooldown.remaining}
+            />
+          ) : null}
+
+          {reportError ? (
+            <div
+              role="alert"
+              className="rounded-[1.5rem] bg-destructive/10 p-4 text-sm leading-6 text-destructive sm:p-5"
+            >
+              {reportError}
+            </div>
+          ) : null}
+        </div>
       ) : null}
 
-      {reportError ? (
-        <Alert variant="destructive">
-          <AlertDescription className="text-destructive/90">
-            {reportError}
-          </AlertDescription>
-        </Alert>
-      ) : null}
-
-      <div className="grid grid-cols-1 items-start gap-6 xl:grid-cols-[minmax(0,1fr)_20rem]">
+      <div className="grid grid-cols-1 items-start gap-4 sm:gap-6 xl:grid-cols-[minmax(0,1fr)_20rem]">
         <div className="min-w-0 space-y-4">
           {isGenerating ? (
             <AnalyzingState />
@@ -102,7 +107,7 @@ function SkillGapPage() {
           <AiUsageNotice variant="inline" />
         </div>
 
-        <div className="min-w-0 space-y-4">
+        <div className="min-w-0 space-y-3 sm:space-y-4 xl:sticky xl:top-20">
           <ProfileInputsCard profile={profile} canAnalyze={canAnalyze} />
 
           <ReportHistory

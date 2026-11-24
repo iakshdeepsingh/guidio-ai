@@ -1,3 +1,4 @@
+import { ChevronDown } from "lucide-react";
 import { FIELD_OPTIONS } from "@/features/onboarding/field-data";
 import { cn } from "@/lib/utils";
 
@@ -8,24 +9,32 @@ import { cn } from "@/lib/utils";
  */
 export function FieldSelect({ value, onChange, disabled = false, className, ...props }) {
   return (
-    <select
-      {...props}
-      value={value}
-      onChange={(event) => onChange(event.target.value)}
-      disabled={disabled}
-      className={cn(
-        "h-10 w-full min-w-0 rounded-lg border border-field bg-background px-2.5 text-base text-foreground outline-none transition-colors",
-        "focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50",
-        "disabled:cursor-not-allowed disabled:opacity-50 md:text-sm",
-        className
-      )}
-    >
-      <option value="">Select a field</option>
-      {FIELD_OPTIONS.map((field) => (
-        <option key={field.id} value={field.id}>
-          {field.label}
-        </option>
-      ))}
-    </select>
+    <div className="relative w-full min-w-0">
+      <select
+        {...props}
+        value={value}
+        onChange={(event) => onChange(event.target.value)}
+        disabled={disabled}
+        className={cn(
+          "h-11 w-full min-w-0 appearance-none rounded-xl border border-field bg-background pl-3.5 pr-10 text-base tracking-[-0.01em] text-foreground outline-none transition-colors",
+          "focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50",
+          "disabled:cursor-not-allowed disabled:opacity-50 md:text-sm",
+          !value && "text-muted-foreground",
+          className
+        )}
+      >
+        <option value="">Select a field</option>
+        {FIELD_OPTIONS.map((field) => (
+          <option key={field.id} value={field.id} className="text-foreground">
+            {field.label}
+          </option>
+        ))}
+      </select>
+
+      <ChevronDown
+        aria-hidden="true"
+        className="pointer-events-none absolute right-3.5 top-1/2 size-4 -translate-y-1/2 text-muted-foreground"
+      />
+    </div>
   );
 }

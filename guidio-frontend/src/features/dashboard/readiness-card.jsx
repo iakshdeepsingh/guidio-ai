@@ -1,4 +1,3 @@
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { clampPercent, getReadinessLabel } from "@/features/dashboard/dashboard-utils";
 
 const RADIUS = 52;
@@ -14,15 +13,17 @@ export function ReadinessCard({ score }) {
   const offset = CIRCUMFERENCE * (1 - value / 100);
 
   return (
-    <Card className="min-w-0">
-      <CardHeader>
-        <CardTitle>Career readiness</CardTitle>
-        <CardDescription>
+    <section className="min-w-0 rounded-[1.5rem] bg-muted p-3 sm:p-4">
+      <div className="px-2 pb-4 pt-2 sm:px-3">
+        <h2 className="text-xl font-semibold leading-tight tracking-[-0.02em]">
+          Career readiness
+        </h2>
+        <p className="mt-1 text-sm leading-6 text-muted-foreground">
           Calculated from your profile, latest skill match and interview scores.
-        </CardDescription>
-      </CardHeader>
+        </p>
+      </div>
 
-      <CardContent className="flex flex-col items-center gap-4 text-center">
+      <div className="flex flex-col items-center gap-5 rounded-2xl bg-background p-5 text-center sm:p-6">
         <div
           role="img"
           aria-label={
@@ -30,7 +31,7 @@ export function ReadinessCard({ score }) {
               ? `Career readiness score: ${value} out of 100`
               : "Career readiness score not available yet"
           }
-          className="relative size-32 shrink-0"
+          className="relative size-36 shrink-0"
         >
           <svg viewBox="0 0 120 120" className="size-full -rotate-90">
             <circle
@@ -38,8 +39,8 @@ export function ReadinessCard({ score }) {
               cy="60"
               r={RADIUS}
               fill="none"
-              strokeWidth="10"
-              className="stroke-muted"
+              strokeWidth="9"
+              className="stroke-foreground/10"
             />
 
             {hasScore ? (
@@ -48,11 +49,11 @@ export function ReadinessCard({ score }) {
                 cy="60"
                 r={RADIUS}
                 fill="none"
-                strokeWidth="10"
+                strokeWidth="9"
                 strokeLinecap="round"
                 strokeDasharray={CIRCUMFERENCE}
                 strokeDashoffset={offset}
-                className="stroke-foreground transition-[stroke-dashoffset] duration-700"
+                className="stroke-foreground transition-[stroke-dashoffset] duration-1000 ease-out"
               />
             ) : null}
           </svg>
@@ -61,22 +62,26 @@ export function ReadinessCard({ score }) {
             <span
               className={
                 hasScore
-                  ? "text-3xl font-semibold tabular-nums"
-                  : "text-3xl font-semibold text-muted-foreground"
+                  ? "text-5xl font-semibold leading-none tracking-[-0.04em] tabular-nums"
+                  : "text-5xl font-semibold leading-none text-muted-foreground"
               }
             >
               {hasScore ? value : "—"}
             </span>
 
             {hasScore ? (
-              <span className="text-xs text-muted-foreground">out of 100</span>
+              <span className="mt-1 text-xs text-muted-foreground">
+                out of 100
+              </span>
             ) : null}
           </div>
         </div>
 
         {hasScore ? (
-          <div className="space-y-1">
-            <p className="text-sm font-medium">{getReadinessLabel(value)}</p>
+          <div className="space-y-1.5">
+            <p className="text-base font-semibold tracking-tight">
+              {getReadinessLabel(value)}
+            </p>
             <p className="text-xs leading-5 text-muted-foreground">
               Only the parts you have completed are counted. Run a skill gap
               analysis and finish a mock interview to make it more complete.
@@ -88,7 +93,7 @@ export function ReadinessCard({ score }) {
             interview to get your first readiness score.
           </p>
         )}
-      </CardContent>
-    </Card>
+      </div>
+    </section>
   );
 }

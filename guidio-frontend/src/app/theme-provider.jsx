@@ -1,7 +1,16 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
+import {
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useMemo,
+  useState,
+} from "react";
 import { ThemeContext } from "@/app/theme-context";
 
-const THEMES = ["light", "dark", "system"];
+const THEMES = ["light", "dark"];
+
+// Browser bar color for each theme. Keep these in step with --background.
+const BAR_COLORS = { light: "#ffffff", dark: "#050505" };
 
 function readStoredTheme(storageKey, fallback) {
   try {
@@ -12,10 +21,23 @@ function readStoredTheme(storageKey, fallback) {
   }
 }
 
-function getSystemTheme() {
-  return window.matchMedia("(prefers-color-scheme: dark)").matches
-    ? "dark"
-    : "light";
+// Turns off every CSS transition for one frame, so switching themes does not
+// make hundreds of elements animate their colors at the same time.
+// The theme toggle (data-theme-toggle) is left out so its icon can animate.
+function disableTransitionsTemporarily() {
+  const style = document.createElement("style");
+  style.appendChild(
+    document.createTextNode(
+      "*:not([data-theme-toggle]):not([data-theme-toggle] *),*::before,*::after{transition:none!important}",
+    ),
+  );
+  document.head.appendChild(style);
+
+  return () => {
+    // Force the browser to apply the new styles before transitions return.
+    window.getComputedStyle(document.body);
+    window.setTimeout(() => style.remove(), 1);
+  };
 }
 
 export function ThemeProvider({
@@ -24,35 +46,37 @@ export function ThemeProvider({
   storageKey = "Guidio-Ai-theme",
 }) {
   const [theme, setThemeState] = useState(() =>
-    readStoredTheme(storageKey, defaultTheme)
+    readStoredTheme(storageKey, defaultTheme),
   );
-  const [systemTheme, setSystemTheme] = useState(getSystemTheme);
 
-  // Follow operating-system theme changes.
-  useEffect(() => {
-    const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
-
-    const handleChange = (event) => {
-      setSystemTheme(event.matches ? "dark" : "light");
-    };
-
-    mediaQuery.addEventListener("change", handleChange);
-
-    return () => {
-      mediaQuery.removeEventListener("change", handleChange);
-    };
-  }, []);
-
-  const resolvedTheme = theme === "system" ? systemTheme : theme;
-
-  // Apply the resolved theme to the <html> element.
-  useEffect(() => {
+  // Apply the theme to <html> before the browser paints.
+  useLayoutEffect(() => {
     const root = document.documentElement;
+    const restoreTransitions = disableTransitionsTemporarily();
 
     root.classList.remove("light", "dark");
-    root.classList.add(resolvedTheme);
-    root.style.colorScheme = resolvedTheme;
-  }, [resolvedTheme]);
+    root.classList.add(theme);
+    root.style.colorScheme = theme;
+
+    // Keep the browser bar (mobile address bar) in step with the theme.
+    document
+      .querySelector('meta[name="theme-color"]')
+      ?.setAttribute("content", BAR_COLORS[theme]);
+
+    restoreTransitions();
+  }, [theme]);
+
+  // Keep other open tabs in sync.
+  useEffect(() => {
+    const onStorage = (event) => {
+      if (event.key === storageKey && THEMES.includes(event.newValue)) {
+        setThemeState(event.newValue);
+      }
+    };
+
+    window.addEventListener("storage", onStorage);
+    return () => window.removeEventListener("storage", onStorage);
+  }, [storageKey]);
 
   const setTheme = useCallback(
     (nextTheme) => {
@@ -68,12 +92,12 @@ export function ThemeProvider({
 
       setThemeState(nextTheme);
     },
-    [storageKey]
+    [storageKey],
   );
 
   const value = useMemo(
-    () => ({ theme, resolvedTheme, setTheme }),
-    [theme, resolvedTheme, setTheme]
+    () => ({ theme, resolvedTheme: theme, setTheme }),
+    [theme, setTheme],
   );
 
   return (

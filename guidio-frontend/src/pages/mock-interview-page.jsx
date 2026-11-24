@@ -3,7 +3,6 @@ import { AiUsageNotice } from "@/components/common/ai-usage-notice";
 import { ErrorState } from "@/components/common/error-state";
 import { PageHeader } from "@/components/common/page-header";
 import { CardSkeleton, PageSkeleton } from "@/components/common/skeletons";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import { InterviewHistory } from "@/features/interview/interview-history";
 import { InterviewSession } from "@/features/interview/interview-session";
@@ -48,7 +47,7 @@ function MockInterviewPage() {
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-8 sm:space-y-10">
       <PageHeader
         title="AI Mock Interview"
         description={description}
@@ -59,6 +58,7 @@ function MockInterviewPage() {
               variant="outline"
               onClick={interview.leaveInterview}
               disabled={isSubmitting}
+              className="h-12 rounded-full px-6 text-[0.9375rem]"
             >
               <RotateCcw aria-hidden="true" />
               New interview
@@ -68,11 +68,23 @@ function MockInterviewPage() {
       />
 
       {openError ? (
-        <Alert variant="destructive">
-          <CircleAlert aria-hidden="true" />
-          <AlertTitle>Unable to open this interview</AlertTitle>
-          <AlertDescription>{openError.message}</AlertDescription>
-        </Alert>
+        <div
+          role="alert"
+          className="flex items-start gap-3.5 rounded-[1.5rem] bg-destructive/10 p-4 sm:p-5"
+        >
+          <span className="flex size-10 shrink-0 items-center justify-center rounded-full bg-destructive text-white">
+            <CircleAlert aria-hidden="true" className="size-[18px]" />
+          </span>
+
+          <div className="min-w-0 space-y-1">
+            <p className="text-base font-semibold leading-tight tracking-[-0.02em]">
+              Unable to open this interview
+            </p>
+            <p className="text-sm leading-6 text-muted-foreground">
+              {openError.message}
+            </p>
+          </div>
+        </div>
       ) : null}
 
       {activeInterview ? (
@@ -92,7 +104,7 @@ function MockInterviewPage() {
           refreshError={interview.refreshError}
         />
       ) : (
-        <div className="grid grid-cols-1 items-start gap-6 xl:grid-cols-[minmax(0,1fr)_22rem]">
+        <div className="grid grid-cols-1 items-start gap-4 sm:gap-6 xl:grid-cols-[minmax(0,1fr)_22rem]">
           <div className="min-w-0">
             {isOpening ? (
               <CardSkeleton lines={6} />
@@ -110,7 +122,7 @@ function MockInterviewPage() {
             )}
           </div>
 
-          <div className="min-w-0">
+          <div className="min-w-0 xl:sticky xl:top-20">
             <InterviewHistory
               interviews={interview.interviews}
               onOpen={interview.openInterview}

@@ -1,6 +1,5 @@
 import { useEffect, useRef } from "react";
 import { ArrowLeft, ArrowRight, Check, Clock, LoaderCircle, TriangleAlert } from "lucide-react";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import { STEPS } from "@/features/onboarding/onboarding-data";
 import { OnboardingProgress } from "@/features/onboarding/onboarding-progress";
@@ -10,6 +9,7 @@ import {
   DirectionStep,
   SkillsStep,
 } from "@/features/onboarding/onboarding-steps";
+import { cn } from "@/lib/utils";
 
 const STEP_COMPONENTS = {
   basics: BasicsStep,
@@ -61,56 +61,85 @@ export function OnboardingWizard({
           event.preventDefault();
           onNext();
         }}
-        className="rounded-xl border bg-card p-5 text-card-foreground sm:p-8"
+        className="rounded-[1.5rem] bg-muted p-3 sm:rounded-[2rem] sm:p-4"
       >
-        <div className="mb-6 space-y-1.5">
-          <h1
-            ref={headingRef}
-            tabIndex={-1}
-            className="text-xl font-semibold tracking-tight outline-none sm:text-2xl"
+        <div className="px-2 pb-5 pt-3 sm:px-4 sm:pt-4">
+          {/* key replays the fade each time the step changes */}
+          <div
+            key={step.id}
+            className="animate-in fade-in slide-in-from-bottom-2 space-y-2 duration-500 motion-reduce:animate-none"
           >
-            {step.title}
-          </h1>
-          <p className="text-sm leading-6 text-muted-foreground">
-            {step.description}
-          </p>
+            <h1
+              ref={headingRef}
+              tabIndex={-1}
+              className="text-[1.75rem] font-semibold leading-[1.1] tracking-[-0.035em] outline-none sm:text-4xl"
+            >
+              {step.title}
+            </h1>
+            <p className="text-[0.9375rem] font-medium leading-snug tracking-[-0.01em] text-muted-foreground sm:text-lg">
+              {step.description}
+            </p>
+          </div>
         </div>
 
-        <StepComponent
-          form={form}
-          errors={errors}
-          onChange={onChange}
-          disabled={isSaving}
-        />
+        {/* The fields sit on a white block */}
+        <div
+          key={`fields-${step.id}`}
+          className="animate-in fade-in slide-in-from-bottom-2 rounded-2xl bg-background p-4 duration-500 motion-reduce:animate-none sm:rounded-[1.5rem] sm:p-8"
+        >
+          <StepComponent
+            form={form}
+            errors={errors}
+            onChange={onChange}
+            disabled={isSaving}
+          />
+        </div>
 
         {saveError ? (
-          <Alert
-            variant={isRateLimited ? "default" : "destructive"}
-            className="mt-6 items-start"
-          >
-            {isRateLimited ? (
-              <Clock aria-hidden="true" />
-            ) : (
-              <TriangleAlert aria-hidden="true" />
+          <div
+            role="alert"
+            className={cn(
+              "mt-2 flex items-start gap-3.5 rounded-2xl p-4 sm:p-5",
+              isRateLimited ? "bg-background" : "bg-destructive/10"
             )}
-            <AlertTitle>
-              {isRateLimited ? "Please wait a moment" : "We could not save this step"}
-            </AlertTitle>
-            <AlertDescription>
-              <p>{saveError.message}</p>
-              <p className="mt-1">Your answers are still here. Nothing was lost.</p>
-            </AlertDescription>
-          </Alert>
+          >
+            <span
+              className={cn(
+                "flex size-10 shrink-0 items-center justify-center rounded-full",
+                isRateLimited
+                  ? "bg-foreground text-background"
+                  : "bg-destructive text-white"
+              )}
+            >
+              {isRateLimited ? (
+                <Clock aria-hidden="true" className="size-[18px]" />
+              ) : (
+                <TriangleAlert aria-hidden="true" className="size-[18px]" />
+              )}
+            </span>
+
+            <div className="min-w-0 space-y-1">
+              <p className="text-base font-semibold leading-tight tracking-[-0.02em]">
+                {isRateLimited ? "Please wait a moment" : "We could not save this step"}
+              </p>
+              <p className="text-sm leading-6 text-muted-foreground">
+                {saveError.message}
+              </p>
+              <p className="text-sm leading-6 text-muted-foreground">
+                Your answers are still here. Nothing was lost.
+              </p>
+            </div>
+          </div>
         ) : null}
 
-        <div className="mt-8 flex flex-col-reverse gap-2 sm:flex-row sm:items-center sm:justify-between">
+        <div className="flex flex-col-reverse gap-2 px-0 pb-1 pt-3 sm:flex-row sm:items-center sm:justify-between sm:px-1 sm:pt-4">
           {stepIndex > 0 ? (
             <Button
               type="button"
               variant="outline"
               onClick={onBack}
               disabled={isSaving}
-              className="h-10 px-4"
+              className="h-12 rounded-full border-foreground/10 bg-background px-6 text-[0.9375rem]"
             >
               <ArrowLeft aria-hidden="true" />
               Previous
@@ -120,7 +149,7 @@ export function OnboardingWizard({
           <Button
             type="submit"
             disabled={isSaving || isWaiting}
-            className="h-10 px-5 sm:ml-auto"
+            className="h-12 rounded-full px-7 text-[0.9375rem] sm:ml-auto"
           >
             {isSaving ? <LoaderCircle aria-hidden="true" className="animate-spin" /> : null}
             {isSaving ? "Saving..." : nextLabel}

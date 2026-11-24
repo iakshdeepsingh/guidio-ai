@@ -1,13 +1,6 @@
 import { LoaderCircle, Play } from "lucide-react";
 import { AiErrorNotice } from "@/components/common/ai-error-notice";
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { ChoiceGroup } from "@/features/onboarding/choice-group";
@@ -17,6 +10,8 @@ import {
   QUESTION_COUNT,
   ROLE_MAX_LENGTH,
 } from "./interview-utils";
+
+const labelClass = "text-sm font-semibold leading-none tracking-[-0.01em]";
 
 export function InterviewSetup({
   setup,
@@ -41,19 +36,21 @@ export function InterviewSetup({
   }
 
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle className="text-lg">Set up your interview</CardTitle>
-        <CardDescription>
+    <section className="rounded-[1.5rem] bg-muted p-3 sm:rounded-[2rem] sm:p-4">
+      <div className="px-2 pb-5 pt-3 sm:px-4 sm:pt-4">
+        <h2 className="text-[1.75rem] font-semibold leading-[1.1] tracking-[-0.035em] sm:text-4xl">
+          Set up your interview
+        </h2>
+        <p className="mt-2 text-[0.9375rem] font-medium leading-snug tracking-[-0.01em] text-muted-foreground sm:text-lg">
           Choose the type, role and difficulty. Guidio AI will ask you{" "}
           {QUESTION_COUNT} questions and score each answer.
-        </CardDescription>
-      </CardHeader>
+        </p>
+      </div>
 
-      <CardContent>
-        <form onSubmit={handleSubmit} className="space-y-6">
-          <div className="space-y-2">
-            <p id="interview-type-label" className="text-sm font-medium">
+      <form onSubmit={handleSubmit} className="space-y-2">
+        <div className="space-y-7 rounded-2xl bg-background p-4 sm:rounded-[1.5rem] sm:p-8">
+          <div className="space-y-2.5">
+            <p id="interview-type-label" className={labelClass}>
               Interview type
             </p>
 
@@ -68,9 +65,11 @@ export function InterviewSetup({
             />
           </div>
 
-          <div className="space-y-2">
+          <div className="space-y-2.5">
             <div className="flex flex-wrap items-center justify-between gap-2">
-              <Label htmlFor="interview-role">Target role</Label>
+              <Label htmlFor="interview-role" className={labelClass}>
+                Target role
+              </Label>
 
               {showProfileRole ? (
                 <Button
@@ -79,6 +78,7 @@ export function InterviewSetup({
                   size="sm"
                   onClick={() => onChange("targetRole", profileRole)}
                   disabled={isStarting}
+                  className="h-8 rounded-full bg-muted px-3.5 text-xs"
                 >
                   Use my profile role
                 </Button>
@@ -93,7 +93,7 @@ export function InterviewSetup({
               maxLength={ROLE_MAX_LENGTH}
               autoComplete="off"
               disabled={isStarting}
-              className="h-10"
+              className="h-11"
             />
 
             <p className="text-xs leading-5 text-muted-foreground">
@@ -101,8 +101,8 @@ export function InterviewSetup({
             </p>
           </div>
 
-          <div className="space-y-2">
-            <p id="interview-difficulty-label" className="text-sm font-medium">
+          <div className="space-y-2.5">
+            <p id="interview-difficulty-label" className={labelClass}>
               Difficulty
             </p>
 
@@ -116,26 +116,40 @@ export function InterviewSetup({
               className="sm:grid-cols-3"
             />
           </div>
+        </div>
 
-          <ul className="space-y-1.5 rounded-lg border bg-muted/40 p-3.5 text-sm leading-6 text-muted-foreground">
-            <li>{QUESTION_COUNT} questions, one at a time.</li>
-            <li>Scores and feedback after every answer.</li>
-            <li>A final score, strengths and an improvement plan at the end.</li>
-          </ul>
+        {/* What to expect */}
+        <ul className="space-y-2 rounded-2xl bg-background p-4 text-sm leading-6 text-muted-foreground sm:p-5">
+          {[
+            `${QUESTION_COUNT} questions, one at a time.`,
+            "Scores and feedback after every answer.",
+            "A final score, strengths and an improvement plan at the end.",
+          ].map((item) => (
+            <li key={item} className="flex gap-3">
+              <span
+                aria-hidden="true"
+                className="mt-2.5 size-1 shrink-0 rounded-full bg-foreground/30"
+              />
+              <span className="min-w-0">{item}</span>
+            </li>
+          ))}
+        </ul>
 
-          {startError ? (
-            <AiErrorNotice
-              error={startError}
-              onRetry={canStart ? onStart : undefined}
-              cooldownSeconds={cooldown.remaining}
-            />
-          ) : null}
+        {startError ? (
+          <AiErrorNotice
+            error={startError}
+            onRetry={canStart ? onStart : undefined}
+            cooldownSeconds={cooldown.remaining}
+            className="bg-background"
+          />
+        ) : null}
 
+        <div className="pt-2">
           <Button
             type="submit"
             size="lg"
             disabled={!canStart || isStarting || cooldown.isCoolingDown}
-            className="h-auto min-h-9 w-full whitespace-normal py-1.5 sm:w-auto"
+            className="h-auto min-h-12 w-full whitespace-normal rounded-full px-7 py-2.5 text-[0.9375rem] sm:w-auto"
           >
             {isStarting ? (
               <LoaderCircle aria-hidden="true" className="animate-spin" />
@@ -144,8 +158,8 @@ export function InterviewSetup({
             )}
             {buttonLabel}
           </Button>
-        </form>
-      </CardContent>
-    </Card>
+        </div>
+      </form>
+    </section>
   );
 }

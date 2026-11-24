@@ -1,7 +1,7 @@
 import { cn } from "@/lib/utils";
 
 /**
- * Single-choice answer shown as large tappable cards.
+ * Single-choice answer shown as large tappable tiles.
  * Built on native radio inputs, so keyboard and screen reader support
  * works without extra code (arrow keys move between options).
  *
@@ -35,16 +35,21 @@ export function ChoiceGroup({
           />
           <span
             className={cn(
-              "flex h-full min-h-11 cursor-pointer flex-col justify-center rounded-lg border border-field bg-background px-3.5 py-2.5 text-sm transition-colors",
-              "hover:bg-muted",
-              "peer-checked:border-foreground peer-checked:bg-muted peer-checked:ring-1 peer-checked:ring-foreground",
+              "flex h-full min-h-12 cursor-pointer flex-col justify-center rounded-2xl bg-muted px-4 py-3 text-sm tracking-[-0.01em] transition-all duration-200",
+              "hover:bg-foreground/[0.08]",
+              // Selected: solid black tile, like the active item in the sidebar
+              "peer-checked:bg-foreground peer-checked:text-background",
+              "peer-checked:[&_[data-description]]:text-background/70",
               "peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-ring",
               "peer-disabled:cursor-not-allowed peer-disabled:opacity-50"
             )}
           >
             <span className="font-medium">{option.label}</span>
             {option.description ? (
-              <span className="text-xs text-muted-foreground">
+              <span
+                data-description
+                className="text-xs text-muted-foreground transition-colors duration-200"
+              >
                 {option.description}
               </span>
             ) : null}

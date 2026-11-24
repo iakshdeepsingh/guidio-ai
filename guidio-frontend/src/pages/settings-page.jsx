@@ -6,16 +6,23 @@ import { SecurityCard } from "@/features/settings/security-card";
 
 function SettingsPage() {
   return (
-    <div className="mx-auto max-w-3xl space-y-6 pb-8">
+    <div className="space-y-8 pb-8 sm:space-y-10">
       <PageHeader
         title="Settings"
         description="Manage your account, appearance and see how the AI features work."
       />
 
-      <AccountCard />
-      <AppearanceCard />
-      <SecurityCard />
-      <AiUsageNotice variant="card" />
+      <div className="grid gap-3 sm:gap-4 lg:grid-cols-2 lg:items-start">
+        <div className="min-w-0 space-y-3 sm:space-y-4">
+          <AccountCard />
+          <SecurityCard />
+        </div>
+
+        <div className="min-w-0 space-y-3 sm:space-y-4">
+          <AppearanceCard />
+          <AiUsageNotice variant="card" />
+        </div>
+      </div>
     </div>
   );
 }

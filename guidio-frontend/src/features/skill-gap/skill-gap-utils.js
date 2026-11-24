@@ -11,7 +11,8 @@ export const PRIORITY_STYLES = {
     bar: "bg-warning",
   },
   Low: {
-    badge: "bg-muted text-muted-foreground",
+    // bg-background so the pill shows on the gray skill tiles
+    badge: "bg-background text-muted-foreground",
     bar: "bg-muted-foreground/50",
   },
 };

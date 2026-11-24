@@ -1,4 +1,3 @@
-
 import { useEffect, useRef } from "react";
 import { ArrowUp, LoaderCircle } from "lucide-react";
 import { AiUsageNotice } from "@/components/common/ai-usage-notice";
@@ -63,9 +62,9 @@ export function ChatComposer({
   }
 
   return (
-    <div className="border-t bg-card px-3 pb-3 pt-3 sm:px-4">
+    <div className="border-t border-foreground/10 bg-background/72 px-3 pb-3 pt-3 backdrop-blur-[20px] backdrop-saturate-[1.8] sm:px-4">
       <form onSubmit={handleSubmit} className="mx-auto w-full max-w-3xl">
-        <div className="flex items-end gap-2 rounded-2xl border bg-background p-2 transition-colors focus-within:border-ring">
+        <div className="flex items-end gap-2 rounded-[1.75rem] bg-muted p-2 ring-1 ring-transparent transition-shadow duration-200 focus-within:ring-foreground/25">
           <label htmlFor="assistant-message" className="sr-only">
             Your message
           </label>
@@ -80,7 +79,7 @@ export function ChatComposer({
             rows={1}
             maxLength={MAX_MESSAGE_LENGTH}
             placeholder="Ask a question or paste your doubt…"
-            className="max-h-44 min-h-10 flex-1 resize-none bg-transparent px-2.5 py-2 text-base leading-6 outline-none placeholder:text-muted-foreground sm:text-[15px]"
+            className="max-h-44 min-h-10 flex-1 resize-none bg-transparent px-3 py-2 text-base leading-6 tracking-[-0.01em] outline-none placeholder:text-muted-foreground sm:text-[15px]"
           />
 
           <Button
@@ -92,7 +91,7 @@ export function ChatComposer({
                 ? `Send is paused for ${cooldownSeconds} seconds`
                 : "Send message"
             }
-            className="shrink-0 rounded-xl"
+            className="size-10 shrink-0 rounded-full transition-transform duration-200 enabled:active:scale-90"
           >
             {isSending ? (
               <LoaderCircle aria-hidden="true" className="animate-spin" />
@@ -104,7 +103,7 @@ export function ChatComposer({
           </Button>
         </div>
 
-        <div className="mt-2 flex items-start justify-between gap-3 px-1">
+        <div className="mt-2 flex items-start justify-between gap-3 px-2">
           <AiUsageNotice variant="inline" />
 
           {value.length > MAX_MESSAGE_LENGTH - 1000 ? (

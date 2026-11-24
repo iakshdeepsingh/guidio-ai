@@ -6,7 +6,7 @@ const CodeHighlighter = lazy(() => import("@/components/code-highlighter"));
 
 function PlainCode({ code }) {
   return (
-    <pre className="m-0 px-4 py-3.5 font-mono text-[13px] leading-[1.65] text-neutral-200">
+    <pre className="m-0 px-5 py-4 font-mono text-[13px] leading-[1.7] text-neutral-200">
       <code>{code}</code>
     </pre>
   );
@@ -14,11 +14,20 @@ function PlainCode({ code }) {
 
 function CodeBlockBase({ code, language }) {
   return (
-    <div className="my-4 overflow-hidden rounded-xl border border-neutral-800 bg-[#0a0a0a] text-neutral-200">
-      <div className="flex items-center justify-between gap-3 border-b border-neutral-800 bg-[#111111] px-3 py-1.5">
-        <span className="truncate font-mono text-xs text-neutral-400">
-          {language || "text"}
-        </span>
+    <div className="my-5 overflow-hidden rounded-[1.25rem] bg-[#0a0a0a] text-neutral-200 ring-1 ring-foreground/10">
+      <div className="flex items-center justify-between gap-3 bg-[#161616] px-4 py-2">
+        <div className="flex min-w-0 items-center gap-3">
+          {/* Window dots, like the dashboard preview */}
+          <span aria-hidden="true" className="flex shrink-0 items-center gap-1.5">
+            <span className="size-2.5 rounded-full bg-white/15" />
+            <span className="size-2.5 rounded-full bg-white/15" />
+            <span className="size-2.5 rounded-full bg-white/15" />
+          </span>
+
+          <span className="truncate font-mono text-xs text-neutral-400">
+            {language || "text"}
+          </span>
+        </div>
 
         <CopyButton
           text={code}

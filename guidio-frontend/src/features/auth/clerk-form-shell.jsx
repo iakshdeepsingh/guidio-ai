@@ -6,28 +6,31 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 const LOAD_TIMEOUT_MS = 12000;
 
+// Skeleton bars sit on a gray tile, so they use a slightly darker tone.
+const bar = "bg-foreground/10";
+
 function FormSkeleton() {
   return (
     <div
       role="status"
       aria-live="polite"
-      className="space-y-6 rounded-xl border bg-card p-6 sm:p-8"
+      className="w-full space-y-6 rounded-[1.75rem] bg-muted p-6 sm:rounded-[2rem] sm:p-8"
     >
       <span className="sr-only">Loading the form</span>
 
-      <div className="space-y-2">
-        <Skeleton className="mx-auto h-6 w-40" />
-        <Skeleton className="mx-auto h-4 w-56 max-w-full" />
+      <div className="space-y-2.5">
+        <Skeleton className={`mx-auto h-6 w-40 rounded-full ${bar}`} />
+        <Skeleton className={`mx-auto h-4 w-56 max-w-full rounded-full ${bar}`} />
       </div>
 
-      <Skeleton className="h-10 w-full" />
+      <Skeleton className={`h-12 w-full rounded-full ${bar}`} />
 
-      <div className="space-y-4">
-        <Skeleton className="h-10 w-full" />
-        <Skeleton className="h-10 w-full" />
+      <div className="space-y-3">
+        <Skeleton className={`h-12 w-full rounded-xl ${bar}`} />
+        <Skeleton className={`h-12 w-full rounded-xl ${bar}`} />
       </div>
 
-      <Skeleton className="h-10 w-full" />
+      <Skeleton className="h-12 w-full rounded-full bg-foreground/20" />
     </div>
   );
 }

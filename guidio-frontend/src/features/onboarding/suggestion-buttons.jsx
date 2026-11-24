@@ -1,3 +1,5 @@
+import { cn } from "@/lib/utils";
+
 /**
  * Small tappable suggestions shown under a text input.
  * Used by onboarding and the profile editor.
@@ -15,7 +17,14 @@ export function SuggestionButtons({ options, current, onPick, disabled }) {
               onClick={() => onPick(option)}
               disabled={disabled}
               aria-pressed={isActive}
-              className="inline-flex items-center rounded-md border px-2 py-1 text-xs text-muted-foreground transition-colors hover:bg-muted hover:text-foreground aria-pressed:border-foreground aria-pressed:text-foreground"
+              className={cn(
+                "inline-flex min-h-8 items-center rounded-full px-3.5 py-1.5 text-xs font-medium tracking-[-0.01em] outline-none transition-all duration-200",
+                "focus-visible:ring-2 focus-visible:ring-ring/60",
+                "disabled:cursor-not-allowed disabled:opacity-50",
+                isActive
+                  ? "bg-foreground text-background"
+                  : "bg-muted text-muted-foreground hover:bg-foreground/[0.08] hover:text-foreground"
+              )}
             >
               {option}
             </button>

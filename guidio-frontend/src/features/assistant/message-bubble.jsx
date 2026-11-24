@@ -2,7 +2,6 @@ import { memo } from "react";
 import { Sparkles } from "lucide-react";
 import { CopyButton } from "@/components/common/copy-button";
 import MarkdownRenderer from "@/components/markdown-renderer";
-import { cn } from "@/lib/utils";
 import { formatMessageTime } from "./assistant-utils";
 
 function ThinkingDots() {
@@ -10,12 +9,12 @@ function ThinkingDots() {
     <div
       role="status"
       aria-label="Guidio AI is thinking"
-      className="flex items-center gap-1.5 py-2"
+      className="inline-flex items-center gap-1.5 rounded-full bg-muted px-4 py-3"
     >
       {[0, 1, 2].map((index) => (
         <span
           key={index}
-          className="size-1.5 animate-pulse rounded-full bg-muted-foreground"
+          className="size-1.5 animate-pulse rounded-full bg-foreground/50"
           style={{ animationDelay: `${index * 180}ms` }}
         />
       ))}
@@ -28,14 +27,14 @@ function MessageBubbleBase({ message }) {
 
   if (message.role === "user") {
     return (
-      <div className="flex justify-end">
+      <div className="animate-in fade-in slide-in-from-bottom-2 flex justify-end duration-300 motion-reduce:animate-none">
         <div className="min-w-0 max-w-[88%] sm:max-w-[75%]">
-          <div className="rounded-2xl rounded-br-md border bg-accent px-4 py-2.5 text-sm leading-7 text-accent-foreground sm:text-[15px]">
+          <div className="rounded-[1.5rem] rounded-br-md bg-foreground px-4 py-3 text-sm leading-7 tracking-[-0.01em] text-background sm:text-[15px]">
             <p className="whitespace-pre-wrap break-words">{message.content}</p>
           </div>
 
           {time ? (
-            <p className="mt-1 px-1 text-right text-xs text-muted-foreground">
+            <p className="mt-1.5 px-1 text-right text-xs text-muted-foreground">
               {time}
             </p>
           ) : null}
@@ -47,10 +46,10 @@ function MessageBubbleBase({ message }) {
   const isWaiting = message.isStreaming && !message.content;
 
   return (
-    <div className="flex gap-3">
+    <div className="animate-in fade-in slide-in-from-bottom-2 flex gap-3 duration-300 motion-reduce:animate-none">
       <span
         aria-hidden="true"
-        className="mt-0.5 flex size-8 shrink-0 items-center justify-center rounded-full border bg-background"
+        className="mt-0.5 flex size-8 shrink-0 items-center justify-center rounded-full bg-foreground text-background"
       >
         <Sparkles className="size-4" />
       </span>
@@ -63,11 +62,7 @@ function MessageBubbleBase({ message }) {
         )}
 
         {!message.isStreaming && message.content ? (
-          <div
-            className={cn(
-              "mt-2 flex items-center gap-2 text-xs text-muted-foreground"
-            )}
-          >
+          <div className="mt-2 flex items-center gap-2 text-xs text-muted-foreground">
             <CopyButton
               text={message.content}
               label="Copy"

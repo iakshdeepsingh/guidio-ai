@@ -33,20 +33,24 @@ function Pre({ children }) {
 // Created once, so React does not re-create these on every streamed chunk.
 const components = {
   h1: ({ children }) => (
-    <h1 className="mb-3 mt-6 text-xl font-semibold tracking-tight first:mt-0">
+    <h1 className="mb-3 mt-7 text-2xl font-semibold leading-tight tracking-[-0.03em] first:mt-0">
       {children}
     </h1>
   ),
   h2: ({ children }) => (
-    <h2 className="mb-2.5 mt-5 text-lg font-semibold tracking-tight first:mt-0">
+    <h2 className="mb-2.5 mt-6 text-xl font-semibold leading-tight tracking-[-0.025em] first:mt-0">
       {children}
     </h2>
   ),
   h3: ({ children }) => (
-    <h3 className="mb-2 mt-4 text-base font-semibold first:mt-0">{children}</h3>
+    <h3 className="mb-2 mt-5 text-base font-semibold tracking-[-0.02em] first:mt-0">
+      {children}
+    </h3>
   ),
   h4: ({ children }) => (
-    <h4 className="mb-2 mt-4 text-sm font-semibold first:mt-0">{children}</h4>
+    <h4 className="mb-2 mt-4 text-sm font-semibold tracking-[-0.01em] first:mt-0">
+      {children}
+    </h4>
   ),
 
   p: ({ children }) => <p className="mb-3.5 last:mb-0">{children}</p>,
@@ -61,25 +65,25 @@ const components = {
   pre: Pre,
   // Only inline code reaches here. Fenced blocks are handled by Pre.
   code: ({ children }) => (
-    <code className="rounded-md border bg-muted px-1.5 py-0.5 font-mono text-[0.85em] break-words">
+    <code className="rounded-md bg-muted px-1.5 py-0.5 font-mono text-[0.85em] font-medium break-words">
       {children}
     </code>
   ),
 
   ul: ({ children }) => (
-    <ul className="mb-3.5 list-disc space-y-1.5 pl-5 marker:text-muted-foreground last:mb-0">
+    <ul className="mb-3.5 list-disc space-y-1.5 pl-5 marker:text-foreground/30 last:mb-0">
       {children}
     </ul>
   ),
   ol: ({ children }) => (
-    <ol className="mb-3.5 list-decimal space-y-1.5 pl-5 marker:text-muted-foreground last:mb-0">
+    <ol className="mb-3.5 list-decimal space-y-1.5 pl-5 marker:font-medium marker:text-muted-foreground last:mb-0">
       {children}
     </ol>
   ),
   li: ({ children }) => <li className="pl-1">{children}</li>,
 
   blockquote: ({ children }) => (
-    <blockquote className="my-4 border-l-2 border-foreground/30 pl-4 text-muted-foreground">
+    <blockquote className="my-4 rounded-r-2xl border-l-[3px] border-foreground/25 bg-muted/60 py-2.5 pl-4 pr-4 text-muted-foreground">
       {children}
     </blockquote>
   ),
@@ -89,14 +93,14 @@ const components = {
       href={href}
       target="_blank"
       rel="noopener noreferrer"
-      className="font-medium underline decoration-foreground/40 underline-offset-4 transition-colors hover:decoration-foreground"
+      className="font-medium text-primary underline decoration-foreground/30 underline-offset-4 transition-colors hover:decoration-foreground"
     >
       {children}
       <span className="sr-only"> (opens in a new tab)</span>
     </a>
   ),
 
-  hr: () => <hr className="my-5" />,
+  hr: () => <hr className="my-6 border-foreground/10" />,
 
   // Images from AI answers are shown as links instead of being loaded
   // automatically from unknown websites.
@@ -106,27 +110,29 @@ const components = {
         href={src}
         target="_blank"
         rel="noopener noreferrer"
-        className="font-medium underline underline-offset-4"
+        className="font-medium text-primary underline underline-offset-4"
       >
         {alt || "Open image"}
       </a>
     ) : null,
 
   table: ({ children }) => (
-    <div className="my-4 w-full max-w-full overflow-x-auto rounded-lg border">
+    <div className="my-5 w-full max-w-full overflow-x-auto rounded-2xl ring-1 ring-foreground/10">
       <table className="min-w-full border-collapse text-sm">{children}</table>
     </div>
   ),
   thead: ({ children }) => <thead className="bg-muted">{children}</thead>,
-  tbody: ({ children }) => <tbody className="divide-y">{children}</tbody>,
+  tbody: ({ children }) => (
+    <tbody className="divide-y divide-foreground/10">{children}</tbody>
+  ),
   tr: ({ children }) => <tr>{children}</tr>,
   th: ({ children }) => (
-    <th className="whitespace-nowrap px-3 py-2 text-left text-xs font-semibold">
+    <th className="whitespace-nowrap px-4 py-2.5 text-left text-xs font-semibold tracking-tight">
       {children}
     </th>
   ),
   td: ({ children }) => (
-    <td className="px-3 py-2 align-top text-muted-foreground">{children}</td>
+    <td className="px-4 py-2.5 align-top text-muted-foreground">{children}</td>
   ),
 
   input: ({ type, checked }) =>
@@ -143,7 +149,7 @@ const components = {
 
 function MarkdownRenderer({ content }) {
   return (
-    <div className="min-w-0 max-w-full break-words text-sm leading-7 text-foreground sm:text-[15px]">
+    <div className="min-w-0 max-w-full break-words text-sm leading-7 tracking-[-0.005em] text-foreground sm:text-[15px]">
       <ReactMarkdown remarkPlugins={remarkPlugins} components={components}>
         {content || ""}
       </ReactMarkdown>

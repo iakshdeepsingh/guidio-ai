@@ -14,15 +14,7 @@ import {
   UserRound,
 } from "lucide-react";
 import { ChipInput } from "@/components/common/chip-input";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { useCooldown } from "@/hooks/use-cooldown";
 import { getFieldProfile } from "@/features/onboarding/field-data";
@@ -47,6 +39,7 @@ import {
   normalizeForm,
   validateProfileForm,
 } from "@/features/profile/profile-utils";
+import { cn } from "@/lib/utils";
 
 const DEFAULT_COOLDOWN_SECONDS = 30;
 
@@ -70,19 +63,29 @@ function focusFirstInvalidField() {
   });
 }
 
+/** Soft gray tile with the fields on a white block inside. */
 function Section({ icon: Icon, title, description, children }) {
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle className="flex items-center gap-2">
-          <Icon aria-hidden="true" className="size-4 text-muted-foreground" />
-          {title}
-        </CardTitle>
-        <CardDescription>{description}</CardDescription>
-      </CardHeader>
+    <section className="rounded-[1.5rem] bg-muted p-3 sm:p-4">
+      <div className="flex items-start gap-3 px-2 pb-4 pt-2 sm:px-3">
+        <span className="flex size-10 shrink-0 items-center justify-center rounded-full bg-foreground text-background">
+          <Icon aria-hidden="true" className="size-[18px]" />
+        </span>
 
-      <CardContent className="space-y-6">{children}</CardContent>
-    </Card>
+        <div className="min-w-0">
+          <h2 className="text-xl font-semibold leading-tight tracking-[-0.02em]">
+            {title}
+          </h2>
+          <p className="mt-1 text-sm leading-6 text-muted-foreground">
+            {description}
+          </p>
+        </div>
+      </div>
+
+      <div className="space-y-6 rounded-2xl bg-background p-4 sm:p-6">
+        {children}
+      </div>
+    </section>
   );
 }
 
@@ -226,11 +229,11 @@ export function ProfileEditor({ initialProfile, onSave }) {
   );
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4 sm:space-y-6">
       <ProfileSummary savedForm={savedForm} completion={completion} />
 
-      <div className="grid gap-6 xl:grid-cols-[minmax(0,1fr)_20rem]">
-        <form noValidate onSubmit={handleSubmit} className="min-w-0 space-y-6">
+      <div className="grid gap-4 sm:gap-6 xl:grid-cols-[minmax(0,1fr)_20rem]">
+        <form noValidate onSubmit={handleSubmit} className="min-w-0 space-y-4 sm:space-y-6">
           <Section
             icon={UserRound}
             title="Personal information"
@@ -245,7 +248,7 @@ export function ProfileEditor({ initialProfile, onSave }) {
                   placeholder="Example: Aarav Sharma"
                   autoComplete="name"
                   disabled={isSaving}
-                  className="h-10"
+                  className="h-11"
                 />
               )}
             </FormField>
@@ -261,7 +264,7 @@ export function ProfileEditor({ initialProfile, onSave }) {
                   value={user?.primaryEmailAddress?.emailAddress ?? ""}
                   readOnly
                   disabled
-                  className="h-10"
+                  className="h-11"
                 />
               )}
             </FormField>
@@ -295,7 +298,7 @@ export function ProfileEditor({ initialProfile, onSave }) {
                   placeholder="Example: Arka Jain University"
                   autoComplete="organization"
                   disabled={isSaving}
-                  className="h-10"
+                  className="h-11"
                 />
               )}
             </FormField>
@@ -326,7 +329,7 @@ export function ProfileEditor({ initialProfile, onSave }) {
                     placeholder={`Example: ${field.degrees[0]}`}
                     autoComplete="off"
                     disabled={isSaving}
-                    className="h-10"
+                    className="h-11"
                   />
                   <SuggestionButtons
                     options={field.degrees}
@@ -348,7 +351,7 @@ export function ProfileEditor({ initialProfile, onSave }) {
                     placeholder={`Example: ${field.branches[0]}`}
                     autoComplete="off"
                     disabled={isSaving}
-                    className="h-10"
+                    className="h-11"
                   />
                   <SuggestionButtons
                     options={field.branches}
@@ -380,7 +383,7 @@ export function ProfileEditor({ initialProfile, onSave }) {
                   inputMode="numeric"
                   autoComplete="off"
                   disabled={isSaving}
-                  className="h-10 sm:max-w-40"
+                  className="h-11 sm:max-w-40"
                 />
               )}
             </FormField>
@@ -467,7 +470,7 @@ export function ProfileEditor({ initialProfile, onSave }) {
                     placeholder={`Example: ${field.roles[0]}`}
                     autoComplete="off"
                     disabled={isSaving}
-                    className="h-10"
+                    className="h-11"
                   />
                   <SuggestionButtons
                     options={field.roles}
@@ -501,37 +504,54 @@ export function ProfileEditor({ initialProfile, onSave }) {
           </Section>
 
           {saveError ? (
-            <Alert
-              variant={isRateLimited ? "default" : "destructive"}
-              className="items-start"
-            >
-              {isRateLimited ? (
-                <Clock aria-hidden="true" />
-              ) : (
-                <TriangleAlert aria-hidden="true" />
+            <div
+              role="alert"
+              className={cn(
+                "flex items-start gap-3.5 rounded-[1.5rem] p-4 sm:p-5",
+                isRateLimited ? "bg-muted" : "bg-destructive/10"
               )}
-              <AlertTitle>
-                {isRateLimited ? "Please wait a moment" : "We could not save everything"}
-              </AlertTitle>
-              <AlertDescription>
-                <p>{saveError.message}</p>
-                <p className="mt-1">Your changes are still here. Nothing was lost.</p>
-              </AlertDescription>
-            </Alert>
+            >
+              <span
+                className={cn(
+                  "flex size-10 shrink-0 items-center justify-center rounded-full",
+                  isRateLimited
+                    ? "bg-foreground text-background"
+                    : "bg-destructive text-white"
+                )}
+              >
+                {isRateLimited ? (
+                  <Clock aria-hidden="true" className="size-[18px]" />
+                ) : (
+                  <TriangleAlert aria-hidden="true" className="size-[18px]" />
+                )}
+              </span>
+
+              <div className="min-w-0 space-y-1">
+                <p className="text-base font-semibold leading-tight tracking-[-0.02em]">
+                  {isRateLimited ? "Please wait a moment" : "We could not save everything"}
+                </p>
+                <p className="text-sm leading-6 text-muted-foreground">
+                  {saveError.message}
+                </p>
+                <p className="text-sm leading-6 text-muted-foreground">
+                  Your changes are still here. Nothing was lost.
+                </p>
+              </div>
+            </div>
           ) : null}
 
-          <Card>
-            <CardContent className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+          <div className="rounded-[1.5rem] bg-muted p-3 sm:p-4">
+            <div className="flex flex-col gap-3 rounded-2xl bg-background p-4 sm:flex-row sm:items-center sm:justify-between sm:p-5">
               <p
                 role="status"
                 aria-live="polite"
-                className="flex items-center gap-2 text-sm text-muted-foreground"
+                className="flex items-center gap-2 text-sm font-medium text-muted-foreground"
               >
                 {justSaved && !isDirty ? (
                   <>
                     <CheckCircle2
                       aria-hidden="true"
-                      className="size-4 text-emerald-600 dark:text-emerald-400"
+                      className="size-4 text-foreground"
                     />
                     Your profile is saved.
                   </>
@@ -548,7 +568,7 @@ export function ProfileEditor({ initialProfile, onSave }) {
                   variant="outline"
                   onClick={handleReset}
                   disabled={!isDirty || isSaving}
-                  className="h-10 px-4"
+                  className="h-11 rounded-full px-5"
                 >
                   <RotateCcw aria-hidden="true" />
                   Discard changes
@@ -557,7 +577,7 @@ export function ProfileEditor({ initialProfile, onSave }) {
                 <Button
                   type="submit"
                   disabled={!isDirty || isSaving || isWaiting}
-                  className="h-10 px-5"
+                  className="h-11 rounded-full px-6"
                 >
                   {isSaving ? (
                     <LoaderCircle aria-hidden="true" className="animate-spin" />
@@ -567,25 +587,22 @@ export function ProfileEditor({ initialProfile, onSave }) {
                   {saveLabel}
                 </Button>
               </div>
-            </CardContent>
-          </Card>
+            </div>
+          </div>
         </form>
 
-        <aside className="min-w-0 space-y-6 xl:sticky xl:top-24 xl:self-start">
+        <aside className="min-w-0 space-y-4 sm:space-y-6 xl:sticky xl:top-20 xl:self-start">
           <CompletionChecklist completion={completion} />
 
-          <Card>
-            <CardContent className="flex items-start gap-3">
-              <Sparkles
-                aria-hidden="true"
-                className="mt-0.5 size-4 shrink-0 text-muted-foreground"
-              />
-              <p className="text-sm leading-6 text-muted-foreground">
-                A complete profile improves your career guidance, skill-gap
-                reports and mock interview questions.
-              </p>
-            </CardContent>
-          </Card>
+          <div className="flex items-start gap-3 rounded-[1.5rem] bg-muted p-5">
+            <span className="flex size-9 shrink-0 items-center justify-center rounded-full bg-foreground text-background">
+              <Sparkles aria-hidden="true" className="size-4" />
+            </span>
+            <p className="pt-0.5 text-sm leading-6 text-muted-foreground">
+              A complete profile improves your career guidance, skill-gap
+              reports and mock interview questions.
+            </p>
+          </div>
         </aside>
       </div>
     </div>

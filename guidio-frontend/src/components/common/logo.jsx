@@ -1,7 +1,8 @@
+import { memo } from "react";
 import { Link } from "react-router";
 import { cn } from "@/lib/utils";
 
-export function LogoMark({ className }) {
+export const LogoMark = memo(function LogoMark({ className }) {
   return (
     <span
       aria-hidden="true"
@@ -17,16 +18,18 @@ export function LogoMark({ className }) {
         className="block size-full"
         focusable="false"
       >
+        {/* Circle follows the theme: black in light mode, white in dark mode */}
         <ellipse
           cx="622"
           cy="636"
           rx="494"
           ry="510"
-          fill="#000"
+          className="fill-foreground"
         />
 
+        {/* The G is cut out in the page background color */}
         <path
-          fill="#fff"
+          className="fill-background"
           transform="translate(633 335)"
           d="
             M0 0
@@ -62,13 +65,13 @@ export function LogoMark({ className }) {
       </svg>
     </span>
   );
-}
+});
 
 /**
  * Guidio AI logo.
  * Pass `to={null}` to render it without a link.
  */
-export function Logo({
+export const Logo = memo(function Logo({
   to = "/",
   showText = true,
   className,
@@ -81,7 +84,7 @@ export function Logo({
       {showText ? (
         <span
           className={cn(
-            "text-base font-semibold tracking-tight text-foreground",
+            "text-base font-semibold tracking-[-0.02em] text-foreground",
             textClassName
           )}
         >
@@ -94,6 +97,7 @@ export function Logo({
   if (to === null) {
     return (
       <span
+        role={showText ? undefined : "img"}
         aria-label={showText ? undefined : "Guidio AI"}
         className={cn("inline-flex items-center gap-2.5", className)}
       >
@@ -107,11 +111,11 @@ export function Logo({
       to={to}
       aria-label="Guidio AI home"
       className={cn(
-        "inline-flex items-center gap-2.5 rounded-md transition-opacity hover:opacity-80",
+        "inline-flex items-center gap-2.5 rounded-full outline-none transition-opacity motion-reduce:transition-none hover:opacity-80 focus-visible:ring-2 focus-visible:ring-ring/60 focus-visible:ring-offset-2",
         className
       )}
     >
       {content}
     </Link>
   );
-}
+});

@@ -1,5 +1,5 @@
 import {
-  CheckCircle2,
+  Check,
   ChevronDown,
   Lightbulb,
   RefreshCw,
@@ -8,15 +8,7 @@ import {
   Trophy,
 } from "lucide-react";
 import { Link } from "react-router";
-import { Badge } from "@/components/ui/badge";
 import { Button, buttonVariants } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 import { ScoreBadge, ScoreBar } from "./score-bar";
 import {
@@ -27,36 +19,59 @@ import {
   getScoreTone,
 } from "./interview-utils";
 
-function PointCard({ title, description, icon: Icon, iconClass, items, emptyText }) {
-  return (
-    <Card>
-      <CardHeader>
-        <CardTitle className="flex items-center gap-2">
-          <Icon aria-hidden="true" className={cn("size-4", iconClass)} />
-          {title}
-        </CardTitle>
-        <CardDescription>{description}</CardDescription>
-      </CardHeader>
+const tile = "rounded-[1.5rem] bg-muted p-3 sm:p-4";
 
-      <CardContent>
+function TileHeader({ icon: Icon, title, description }) {
+  return (
+    <div className="flex items-start gap-3 px-2 pb-4 pt-2 sm:px-3">
+      {Icon ? (
+        <span className="flex size-10 shrink-0 items-center justify-center rounded-full bg-foreground text-background">
+          <Icon aria-hidden="true" className="size-[18px]" />
+        </span>
+      ) : null}
+
+      <div className="min-w-0">
+        <h2 className="text-xl font-semibold leading-tight tracking-[-0.02em]">
+          {title}
+        </h2>
+        {description ? (
+          <p className="mt-1 text-sm leading-6 text-muted-foreground">
+            {description}
+          </p>
+        ) : null}
+      </div>
+    </div>
+  );
+}
+
+function PointCard({ title, description, icon, items, emptyText }) {
+  return (
+    <section className={tile}>
+      <TileHeader icon={icon} title={title} description={description} />
+
+      <div className="rounded-2xl bg-background p-4 sm:p-5">
         {items.length === 0 ? (
-          <p className="rounded-lg border border-dashed p-4 text-center text-sm text-muted-foreground">
+          <p className="text-center text-sm text-muted-foreground">
             {emptyText}
           </p>
         ) : (
-          <ul className="space-y-2.5">
+          <ul className="space-y-3">
             {items.map((item, index) => (
               <li
                 key={`${index}-${item}`}
-                className="break-words text-sm leading-6 text-muted-foreground"
+                className="flex gap-3 break-words text-sm leading-6 text-muted-foreground"
               >
-                {item}
+                <span
+                  aria-hidden="true"
+                  className="mt-2.5 size-1 shrink-0 rounded-full bg-foreground/30"
+                />
+                <span className="min-w-0">{item}</span>
               </li>
             ))}
           </ul>
         )}
-      </CardContent>
-    </Card>
+      </div>
+    </section>
   );
 }
 
@@ -65,53 +80,49 @@ function ImprovementPlan({ plan, onRefresh, isRefreshing, refreshError }) {
     const actionItems = asArray(plan.actionItems);
 
     return (
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <Sparkles aria-hidden="true" className="size-4" />
-            Your improvement plan
-          </CardTitle>
-          <CardDescription>{plan.title}</CardDescription>
-        </CardHeader>
+      <section className={tile}>
+        <TileHeader
+          icon={Sparkles}
+          title="Your improvement plan"
+          description={plan.title}
+        />
 
-        <CardContent className="space-y-4">
+        <div className="space-y-4 rounded-2xl bg-background p-4 sm:p-5">
           <p className="whitespace-pre-wrap break-words text-sm leading-6 text-muted-foreground">
             {plan.summary}
           </p>
 
           {actionItems.length > 0 ? (
-            <ol className="space-y-2.5">
+            <ol className="space-y-3 border-t border-foreground/10 pt-4">
               {actionItems.map((item, index) => (
                 <li key={`${index}-${item}`} className="flex gap-3 text-sm leading-6">
                   <span
                     aria-hidden="true"
-                    className="flex size-6 shrink-0 items-center justify-center rounded-full border text-xs font-medium tabular-nums"
+                    className="flex size-6 shrink-0 items-center justify-center rounded-full bg-muted text-xs font-semibold tabular-nums"
                   >
                     {index + 1}
                   </span>
-                  <span className="min-w-0 break-words pt-0.5">{item}</span>
+                  <span className="min-w-0 break-words pt-0.5 font-medium tracking-[-0.01em]">
+                    {item}
+                  </span>
                 </li>
               ))}
             </ol>
           ) : null}
-        </CardContent>
-      </Card>
+        </div>
+      </section>
     );
   }
 
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle className="flex items-center gap-2">
-          <Sparkles aria-hidden="true" className="size-4" />
-          Your improvement plan
-        </CardTitle>
-        <CardDescription>
-          Prepared in the background after your interview.
-        </CardDescription>
-      </CardHeader>
+    <section className={tile}>
+      <TileHeader
+        icon={Sparkles}
+        title="Your improvement plan"
+        description="Prepared in the background after your interview."
+      />
 
-      <CardContent className="space-y-3">
+      <div className="space-y-3 rounded-2xl bg-background p-4 sm:p-5">
         <p className="text-sm leading-6 text-muted-foreground">
           Your plan is not ready yet. It can take a minute. If it does not
           appear, the AI may have reached its free limit, so you can check again
@@ -119,7 +130,7 @@ function ImprovementPlan({ plan, onRefresh, isRefreshing, refreshError }) {
         </p>
 
         {refreshError ? (
-          <p role="alert" className="text-sm text-destructive">
+          <p role="alert" className="text-sm font-medium text-destructive">
             {refreshError.message}
           </p>
         ) : null}
@@ -129,12 +140,13 @@ function ImprovementPlan({ plan, onRefresh, isRefreshing, refreshError }) {
           variant="outline"
           onClick={onRefresh}
           disabled={isRefreshing}
+          className="h-11 rounded-full border-foreground/10 bg-muted px-5"
         >
           <RefreshCw aria-hidden="true" className={cn(isRefreshing && "animate-spin")} />
           {isRefreshing ? "Checking…" : "Check for my plan"}
         </Button>
-      </CardContent>
-    </Card>
+      </div>
+    </section>
   );
 }
 
@@ -152,17 +164,18 @@ export function InterviewResult({
   const dateLabel = formatDate(interview.completedAt || interview.createdAt);
 
   return (
-    <div className="space-y-5">
-      <Card>
-        <CardContent className="space-y-5">
-          <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
-            <div className="min-w-0 space-y-2">
-              <Badge variant="secondary">
-                <Trophy aria-hidden="true" />
+    <div className="space-y-3 sm:space-y-4">
+      {/* Result */}
+      <section className={tile}>
+        <div className="space-y-5 rounded-2xl bg-background p-5 sm:p-8">
+          <div className="flex flex-col gap-5 sm:flex-row sm:items-start sm:justify-between">
+            <div className="min-w-0 space-y-3">
+              <span className="inline-flex items-center gap-1.5 rounded-full bg-foreground px-3 py-1 text-xs font-semibold text-background">
+                <Trophy aria-hidden="true" className="size-3.5" />
                 Interview complete
-              </Badge>
+              </span>
 
-              <h2 className="break-words text-xl font-semibold sm:text-2xl">
+              <h2 className="break-words text-2xl font-semibold leading-[1.1] tracking-[-0.03em] sm:text-4xl">
                 {interview.targetRole} interview
               </h2>
 
@@ -173,60 +186,70 @@ export function InterviewResult({
             </div>
 
             <div className="shrink-0 sm:text-right">
-              <p className={cn("text-5xl font-semibold tabular-nums", tone.text)}>
+              <p
+                className={cn(
+                  "text-6xl font-semibold leading-none tracking-[-0.05em] tabular-nums sm:text-7xl",
+                  tone.text
+                )}
+              >
                 {overall}
               </p>
-              <p className="text-xs text-muted-foreground">overall score out of 100</p>
+              <p className="mt-2 text-xs text-muted-foreground">
+                overall score out of 100
+              </p>
             </div>
           </div>
 
           {interview.summary ? (
-            <p className="max-w-3xl whitespace-pre-wrap break-words text-sm leading-6 text-muted-foreground">
+            <p className="max-w-3xl whitespace-pre-wrap break-words text-[0.9375rem] font-medium leading-snug tracking-[-0.01em] text-muted-foreground">
               {interview.summary}
             </p>
           ) : null}
 
-          <div className="flex flex-wrap gap-2">
-            <Button type="button" onClick={onNew}>
+          <div className="flex flex-col gap-2 sm:flex-row">
+            <Button
+              type="button"
+              onClick={onNew}
+              className="h-12 rounded-full px-7 text-[0.9375rem]"
+            >
               <RotateCcw aria-hidden="true" />
               Practice again
             </Button>
 
             <Link
               to="/dashboard"
-              className={buttonVariants({ variant: "outline" })}
+              className={cn(
+                buttonVariants({ variant: "outline" }),
+                "h-12 rounded-full border-foreground/10 bg-muted px-7 text-[0.9375rem]"
+              )}
             >
               Back to dashboard
             </Link>
           </div>
-        </CardContent>
-      </Card>
+        </div>
+      </section>
 
+      {/* Score breakdown */}
       {averages.length > 0 ? (
-        <Card>
-          <CardHeader>
-            <CardTitle>Score breakdown</CardTitle>
-            <CardDescription>
-              The average of each score across your answers.
-            </CardDescription>
-          </CardHeader>
+        <section className={tile}>
+          <TileHeader
+            title="Score breakdown"
+            description="The average of each score across your answers."
+          />
 
-          <CardContent>
-            <div className="grid gap-x-6 gap-y-3 sm:grid-cols-2">
-              {averages.map(({ key, label, value }) => (
-                <ScoreBar key={key} label={label} value={value} />
-              ))}
-            </div>
-          </CardContent>
-        </Card>
+          <div className="grid gap-x-6 gap-y-4 rounded-2xl bg-background p-4 sm:grid-cols-2 sm:p-5">
+            {averages.map(({ key, label, value }) => (
+              <ScoreBar key={key} label={label} value={value} />
+            ))}
+          </div>
+        </section>
       ) : null}
 
-      <div className="grid gap-5 lg:grid-cols-2">
+      <div className="grid gap-3 sm:gap-4 lg:grid-cols-2">
         <PointCard
           title="Strengths"
           description="What worked well across the interview."
-          icon={CheckCircle2}
-          iconClass="text-success"
+          icon={Check}
           items={asArray(interview.strengths)}
           emptyText="Open the question review below to see the strengths of each answer."
         />
@@ -235,7 +258,6 @@ export function InterviewResult({
           title="Priority improvements"
           description="Focus on these before your next practice."
           icon={Lightbulb}
-          iconClass="text-warning"
           items={asArray(interview.improvements)}
           emptyText="Open the question review below to see what to improve in each answer."
         />
@@ -248,44 +270,45 @@ export function InterviewResult({
         refreshError={refreshError}
       />
 
-      <Card>
-        <CardHeader>
-          <CardTitle>Question review</CardTitle>
-          <CardDescription>
-            Open a question to see your answer and the feedback.
-          </CardDescription>
-        </CardHeader>
+      {/* Question review */}
+      <section className={tile}>
+        <TileHeader
+          title="Question review"
+          description="Open a question to see your answer and the feedback."
+        />
 
-        <CardContent className="space-y-2">
+        <div className="space-y-2">
           {answered.length === 0 ? (
-            <p className="rounded-lg border border-dashed p-4 text-center text-sm text-muted-foreground">
+            <p className="rounded-2xl bg-background p-5 text-center text-sm font-medium text-muted-foreground">
               No answered questions were saved for this interview.
             </p>
           ) : (
             answered.map((question, index) => (
-              <details key={question.id} className="group rounded-lg border">
-                <summary className="flex cursor-pointer list-none items-start justify-between gap-3 p-3.5 [&::-webkit-details-marker]:hidden">
+              <details key={question.id} className="group rounded-2xl bg-background">
+                <summary className="flex cursor-pointer list-none items-start justify-between gap-3 rounded-2xl p-4 outline-none focus-visible:ring-2 focus-visible:ring-ring/60 sm:p-5 [&::-webkit-details-marker]:hidden">
                   <div className="min-w-0">
-                    <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
+                    <p className="text-xs font-semibold tracking-tight text-muted-foreground">
                       Question {question.order ?? index + 1}
                     </p>
-                    <p className="mt-1 break-words text-sm font-medium leading-6">
+                    <p className="mt-1 break-words text-sm font-semibold leading-6 tracking-[-0.01em]">
                       {question.question}
                     </p>
                   </div>
 
                   <div className="flex shrink-0 items-center gap-2">
                     <ScoreBadge score={question.answer.overallScore} />
-                    <ChevronDown
-                      aria-hidden="true"
-                      className="size-4 text-muted-foreground transition-transform group-open:rotate-180"
-                    />
+                    <span className="flex size-7 items-center justify-center rounded-full bg-muted">
+                      <ChevronDown
+                        aria-hidden="true"
+                        className="size-4 text-muted-foreground transition-transform duration-300 group-open:rotate-180"
+                      />
+                    </span>
                   </div>
                 </summary>
 
-                <div className="space-y-3 border-t p-3.5">
-                  <div>
-                    <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
+                <div className="grid gap-2 px-3 pb-3 sm:px-4 sm:pb-4">
+                  <div className="rounded-xl bg-muted p-4">
+                    <p className="text-xs font-semibold tracking-tight text-muted-foreground">
                       Your answer
                     </p>
                     <p className="mt-1.5 whitespace-pre-wrap break-words text-sm leading-6">
@@ -293,8 +316,8 @@ export function InterviewResult({
                     </p>
                   </div>
 
-                  <div>
-                    <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
+                  <div className="rounded-xl bg-muted p-4">
+                    <p className="text-xs font-semibold tracking-tight text-muted-foreground">
                       Feedback
                     </p>
                     <p className="mt-1.5 whitespace-pre-wrap break-words text-sm leading-6 text-muted-foreground">
@@ -305,8 +328,8 @@ export function InterviewResult({
               </details>
             ))
           )}
-        </CardContent>
-      </Card>
+        </div>
+      </section>
     </div>
   );
 }

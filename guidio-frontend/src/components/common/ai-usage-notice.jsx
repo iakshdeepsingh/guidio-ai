@@ -1,13 +1,5 @@
-
 import { Info } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 
 /**
@@ -22,7 +14,7 @@ export function AiUsageNotice({ variant = "inline", model, className }) {
     return (
       <p
         className={cn(
-          "flex items-start gap-1.5 text-xs leading-5 text-muted-foreground",
+          "flex items-start gap-2 text-xs leading-5 tracking-[-0.005em] text-muted-foreground",
           className
         )}
       >
@@ -37,37 +29,45 @@ export function AiUsageNotice({ variant = "inline", model, className }) {
   }
 
   return (
-    <Card className={className}>
-      <CardHeader>
-        <CardTitle>AI usage</CardTitle>
-        <CardDescription>
+    <section className={cn("rounded-[1.5rem] bg-muted p-3 sm:p-4", className)}>
+      <div className="px-2 pb-4 pt-2 sm:px-3">
+        <h2 className="text-xl font-semibold leading-tight tracking-[-0.02em]">
+          AI usage
+        </h2>
+        <p className="mt-1 text-sm leading-6 text-muted-foreground">
           How the AI features of Guidio AI are powered.
-        </CardDescription>
-      </CardHeader>
+        </p>
+      </div>
 
-      <CardContent className="space-y-4 text-sm">
-        <dl className="grid gap-3 sm:grid-cols-2">
-          <div className="space-y-1">
-            <dt className="text-muted-foreground">Provider</dt>
-            <dd className="font-medium">Free AI services</dd>
+      <div className="space-y-2 text-sm">
+        <dl className="grid gap-2 sm:grid-cols-2">
+          <div className="space-y-1 rounded-2xl bg-background p-4">
+            <dt className="text-xs font-semibold tracking-tight text-muted-foreground">
+              Provider
+            </dt>
+            <dd className="font-semibold tracking-tight">Free AI services</dd>
           </div>
 
-          <div className="space-y-1">
-            <dt className="text-muted-foreground">Plan</dt>
+          <div className="space-y-1 rounded-2xl bg-background p-4">
+            <dt className="text-xs font-semibold tracking-tight text-muted-foreground">
+              Plan
+            </dt>
             <dd>
               <Badge variant="secondary">Free tier</Badge>
             </dd>
           </div>
 
           {model ? (
-            <div className="space-y-1">
-              <dt className="text-muted-foreground">Model</dt>
-              <dd className="font-medium">{model}</dd>
+            <div className="space-y-1 rounded-2xl bg-background p-4 sm:col-span-2">
+              <dt className="text-xs font-semibold tracking-tight text-muted-foreground">
+                Model
+              </dt>
+              <dd className="font-semibold tracking-tight">{model}</dd>
             </div>
           ) : null}
         </dl>
 
-        <ul className="list-disc space-y-1.5 pl-5 leading-6 text-muted-foreground">
+        <ul className="list-disc space-y-2 rounded-2xl bg-background py-4 pl-9 pr-4 leading-6 text-muted-foreground marker:text-foreground/30">
           <li>
             Free AI services may have request quotas and rate limits.
             Availability is not guaranteed and depends on the current
@@ -81,7 +81,7 @@ export function AiUsageNotice({ variant = "inline", model, className }) {
             again shortly. What you typed is kept.
           </li>
         </ul>
-      </CardContent>
-    </Card>
+      </div>
+    </section>
   );
 }

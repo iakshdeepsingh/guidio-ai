@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from "react";
 import { ArrowDown, LoaderCircle } from "lucide-react";
-import { Button } from "@/components/ui/button";
 import { MessageBubble } from "./message-bubble";
 
 const STICK_THRESHOLD_PX = 80;
@@ -71,14 +70,19 @@ export function ChatThread({
         aria-label="Conversation"
         className="h-full overflow-y-auto overscroll-contain"
       >
-        <div className="mx-auto flex min-h-full w-full max-w-3xl flex-col gap-6 px-4 py-6 sm:px-6">
+        <div className="mx-auto flex min-h-full w-full max-w-3xl flex-col gap-6 px-4 py-6 sm:px-6 sm:py-8">
           {isLoading ? (
             <div
               role="status"
-              className="flex flex-1 items-center justify-center gap-2 py-20 text-sm text-muted-foreground"
+              className="flex flex-1 items-center justify-center py-20"
             >
-              <LoaderCircle aria-hidden="true" className="size-4 animate-spin" />
-              Loading conversation…
+              <span className="inline-flex items-center gap-2.5 rounded-full bg-muted px-4 py-2.5 text-sm font-medium tracking-[-0.01em] text-muted-foreground">
+                <LoaderCircle
+                  aria-hidden="true"
+                  className="size-4 animate-spin"
+                />
+                Loading conversation…
+              </span>
             </div>
           ) : hasMessages ? (
             messages.map((message) => (
@@ -91,19 +95,17 @@ export function ChatThread({
       </div>
 
       {showJump ? (
-        <Button
+        <button
           type="button"
-          variant="outline"
-          size="sm"
           onClick={() => {
             stickToBottomRef.current = true;
             scrollToBottom("smooth");
           }}
-          className="absolute bottom-3 left-1/2 -translate-x-1/2 rounded-full shadow-sm"
+          className="animate-in fade-in slide-in-from-bottom-2 absolute bottom-4 left-1/2 flex -translate-x-1/2 items-center gap-1.5 rounded-full bg-foreground px-4 py-2 text-sm font-medium text-background shadow-[0_12px_32px_-12px] shadow-foreground/50 outline-none transition-transform duration-200 hover:-translate-y-0.5 focus-visible:ring-2 focus-visible:ring-ring/60 active:scale-95 motion-reduce:animate-none"
         >
-          <ArrowDown aria-hidden="true" />
+          <ArrowDown aria-hidden="true" className="size-4" />
           Latest
-        </Button>
+        </button>
       ) : null}
     </div>
   );

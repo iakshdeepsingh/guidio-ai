@@ -117,14 +117,12 @@ export function LandingNavbar() {
     };
   }, []);
 
-  // Highlight the link of the section in view
+  // Highlight the link of the section in view. Sections are lazy-loaded, so
+  // new ones are picked up as they appear in the page.
   useEffect(() => {
-    const sections = navLinks
-      .map((link) => document.getElementById(link.id))
-      .filter(Boolean);
-    if (!sections.length) return undefined;
+    const observed = new Set();
 
-    const observer = new IntersectionObserver(
+    const intersectionObserver = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           const { id } = entry.target;
@@ -139,8 +137,44 @@ export function LandingNavbar() {
       { rootMargin: "-45% 0px -50% 0px" },
     );
 
-    sections.forEach((section) => observer.observe(section));
-    return () => observer.disconnect();
+    const sync = () => {
+      // Stop watching elements that were removed (placeholders)
+      observed.forEach((el) => {
+        if (!el.isConnected) {
+          intersectionObserver.unobserve(el);
+          observed.delete(el);
+        }
+      });
+
+      // Start watching sections that are now in the page
+      navLinks.forEach((link) => {
+        const el = document.getElementById(link.id);
+        if (el && !observed.has(el)) {
+          observed.add(el);
+          intersectionObserver.observe(el);
+        }
+      });
+    };
+
+    let raf = 0;
+    const scheduleSync = () => {
+      if (raf) return;
+      raf = window.requestAnimationFrame(() => {
+        raf = 0;
+        sync();
+      });
+    };
+
+    sync();
+
+    const mutationObserver = new MutationObserver(scheduleSync);
+    mutationObserver.observe(document.body, { childList: true, subtree: true });
+
+    return () => {
+      mutationObserver.disconnect();
+      intersectionObserver.disconnect();
+      if (raf) window.cancelAnimationFrame(raf);
+    };
   }, []);
 
   // Close the mobile menu if the viewport grows to desktop width

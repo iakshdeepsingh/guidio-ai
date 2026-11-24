@@ -5,6 +5,11 @@ import { Button, buttonVariants } from "@/components/ui/button";
 import { mergeSkills } from "@/features/onboarding/onboarding-data";
 import { cn } from "@/lib/utils";
 
+const reveal = (delay) => ({
+  animationDelay: `${delay}ms`,
+  animationFillMode: "both",
+});
+
 const nextSteps = [
   {
     title: "Analyze your skill gap",
@@ -28,9 +33,11 @@ const nextSteps = [
 
 function SummaryRow({ label, children }) {
   return (
-    <div className="grid gap-0.5 py-3 sm:grid-cols-[10rem_1fr] sm:gap-4">
+    <div className="grid gap-0.5 py-3.5 first:pt-0 last:pb-0 sm:grid-cols-[10rem_1fr] sm:gap-4">
       <dt className="text-sm text-muted-foreground">{label}</dt>
-      <dd className="min-w-0 break-words text-sm font-medium">{children}</dd>
+      <dd className="min-w-0 break-words text-sm font-medium tracking-[-0.01em]">
+        {children}
+      </dd>
     </div>
   );
 }
@@ -45,31 +52,58 @@ export function OnboardingComplete({ form, firstName, onEdit }) {
   const degree = form.branch ? `${form.degree}, ${form.branch}` : form.degree;
 
   return (
-    <div className="space-y-8">
-      <div className="space-y-3 text-center">
-        <span className="mx-auto flex size-12 items-center justify-center rounded-full bg-success/10 text-success">
+    <div className="space-y-10 sm:space-y-12">
+      <div className="space-y-4 text-center">
+        <span
+          style={reveal(0)}
+          className="animate-in fade-in zoom-in-95 mx-auto flex size-14 items-center justify-center rounded-full bg-foreground text-background duration-700 motion-reduce:animate-none"
+        >
           <Check aria-hidden="true" className="size-6" />
         </span>
 
-        <h1 className="text-2xl font-semibold tracking-tight sm:text-3xl">
-          {firstName ? `You are all set, ${firstName}` : "You are all set"}
+        <h1
+          style={reveal(80)}
+          className="animate-in fade-in slide-in-from-bottom-3 text-[2.25rem] font-semibold leading-[1.05] tracking-[-0.035em] duration-700 motion-reduce:animate-none sm:text-5xl"
+        >
+          {firstName ? (
+            <>
+              You are all set,{" "}
+              <span className="text-muted-foreground">{firstName}</span>
+            </>
+          ) : (
+            "You are all set"
+          )}
         </h1>
 
-        <p className="mx-auto max-w-md text-sm leading-6 text-muted-foreground sm:text-base">
+        <p
+          style={reveal(160)}
+          className="animate-in fade-in slide-in-from-bottom-3 mx-auto max-w-md text-base font-medium leading-snug tracking-[-0.01em] text-muted-foreground duration-700 motion-reduce:animate-none sm:text-lg"
+        >
           Your profile is saved. Guidio AI will use it to personalize your skill
           analysis, career guidance and interview practice.
         </p>
 
-        <div className="flex flex-col justify-center gap-2 pt-2 sm:flex-row">
+        <div
+          style={reveal(240)}
+          className="animate-in fade-in slide-in-from-bottom-3 flex flex-col justify-center gap-3 pt-2 duration-700 motion-reduce:animate-none sm:flex-row"
+        >
           <Link
             to="/dashboard"
-            className={cn(buttonVariants(), "h-10 gap-2 px-5")}
+            className={cn(
+              buttonVariants(),
+              "h-12 gap-2 rounded-full px-7 text-[0.9375rem]"
+            )}
           >
             Go to dashboard
             <ArrowRight aria-hidden="true" />
           </Link>
 
-          <Button type="button" variant="outline" onClick={onEdit} className="h-10 px-5">
+          <Button
+            type="button"
+            variant="outline"
+            onClick={onEdit}
+            className="h-12 rounded-full px-7 text-[0.9375rem]"
+          >
             Edit my answers
           </Button>
         </div>
@@ -77,13 +111,16 @@ export function OnboardingComplete({ form, firstName, onEdit }) {
 
       <section
         aria-labelledby="ob-summary-title"
-        className="rounded-xl border bg-card p-5 sm:p-6"
+        className="rounded-[1.5rem] bg-muted p-3 sm:p-4"
       >
-        <h2 id="ob-summary-title" className="text-base font-semibold">
+        <h2
+          id="ob-summary-title"
+          className="px-2 pb-4 pt-2 text-xl font-semibold leading-tight tracking-[-0.02em] sm:px-3"
+        >
           Your profile
         </h2>
 
-        <dl className="mt-2 divide-y">
+        <dl className="divide-y divide-foreground/10 rounded-2xl bg-background p-4 sm:p-6">
           <SummaryRow label="Name">{form.fullName || "Not set"}</SummaryRow>
           <SummaryRow label="Education">
             {form.education} · {form.college}
@@ -97,8 +134,11 @@ export function OnboardingComplete({ form, firstName, onEdit }) {
         </dl>
       </section>
 
-      <section aria-labelledby="ob-next-title" className="space-y-3">
-        <h2 id="ob-next-title" className="text-base font-semibold">
+      <section aria-labelledby="ob-next-title" className="space-y-4">
+        <h2
+          id="ob-next-title"
+          className="text-xl font-semibold leading-tight tracking-[-0.02em]"
+        >
           What to do next
         </h2>
 
@@ -110,14 +150,19 @@ export function OnboardingComplete({ form, firstName, onEdit }) {
               <li key={item.href}>
                 <Link
                   to={item.href}
-                  className="group flex h-full flex-col gap-2 rounded-xl border bg-card p-4 transition-colors hover:bg-muted"
+                  className="group flex h-full flex-col gap-6 rounded-[1.5rem] bg-muted p-5 outline-none transition-all duration-300 hover:-translate-y-0.5 focus-visible:ring-2 focus-visible:ring-ring/60"
                 >
-                  <span className="flex size-9 items-center justify-center rounded-lg bg-muted text-foreground group-hover:bg-background">
-                    <Icon aria-hidden="true" className="size-4" />
+                  <span className="flex size-10 items-center justify-center rounded-full bg-foreground text-background transition-transform duration-300 group-hover:scale-105">
+                    <Icon aria-hidden="true" className="size-[18px]" />
                   </span>
-                  <span className="text-sm font-medium">{item.title}</span>
-                  <span className="text-xs leading-5 text-muted-foreground">
-                    {item.description}
+
+                  <span className="mt-auto block">
+                    <span className="block text-base font-semibold leading-tight tracking-[-0.02em]">
+                      {item.title}
+                    </span>
+                    <span className="mt-1 block text-sm leading-6 text-muted-foreground">
+                      {item.description}
+                    </span>
                   </span>
                 </Link>
               </li>

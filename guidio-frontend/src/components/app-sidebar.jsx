@@ -16,10 +16,12 @@ function SidebarBrand({ onNavigate }) {
       to="/dashboard"
       onClick={onNavigate}
       aria-label="Guidio AI dashboard"
-      className="inline-flex items-center gap-2.5 rounded-md transition-opacity hover:opacity-80"
+      className="inline-flex items-center gap-2.5 rounded-full outline-none transition-opacity hover:opacity-80 focus-visible:ring-2 focus-visible:ring-ring/60"
     >
       <LogoMark />
-      <span className="text-base font-semibold tracking-tight">Guidio AI</span>
+      <span className="text-base font-semibold tracking-[-0.02em]">
+        Guidio AI
+      </span>
     </Link>
   );
 }
@@ -34,14 +36,17 @@ function NavigationLinks({ onNavigate }) {
           onClick={onNavigate}
           className={({ isActive }) =>
             cn(
-              "flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors",
+              "group flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium tracking-[-0.01em] outline-none transition-colors focus-visible:ring-2 focus-visible:ring-ring/60",
               isActive
-                ? "bg-accent text-foreground ring-1 ring-border"
-                : "text-muted-foreground hover:bg-accent/60 hover:text-foreground"
+                ? "bg-foreground text-background"
+                : "text-muted-foreground hover:bg-foreground/[0.06] hover:text-foreground"
             )
           }
         >
-          <Icon aria-hidden="true" className="size-4 shrink-0" />
+          <Icon
+            aria-hidden="true"
+            className="size-4 shrink-0 transition-transform duration-200 group-hover:scale-110"
+          />
           <span className="truncate">{title}</span>
         </NavLink>
       ))}
@@ -58,19 +63,23 @@ function SidebarUser() {
   const initial = name.trim().charAt(0).toUpperCase() || "S";
 
   return (
-    <div className="flex items-center gap-3 border-t p-4">
-      <span
-        aria-hidden="true"
-        className="flex size-9 shrink-0 items-center justify-center rounded-full bg-muted text-sm font-medium"
-      >
-        {initial}
-      </span>
+    <div className="p-3">
+      <div className="flex items-center gap-3 rounded-2xl bg-background p-3">
+        <span
+          aria-hidden="true"
+          className="flex size-9 shrink-0 items-center justify-center rounded-full bg-foreground text-sm font-semibold text-background"
+        >
+          {initial}
+        </span>
 
-      <div className="min-w-0">
-        <p className="truncate text-sm font-medium">{name}</p>
-        {email ? (
-          <p className="truncate text-xs text-muted-foreground">{email}</p>
-        ) : null}
+        <div className="min-w-0">
+          <p className="truncate text-sm font-semibold tracking-tight">
+            {name}
+          </p>
+          {email ? (
+            <p className="truncate text-xs text-muted-foreground">{email}</p>
+          ) : null}
+        </div>
       </div>
     </div>
   );
@@ -79,7 +88,8 @@ function SidebarUser() {
 function SidebarPanel({ onNavigate }) {
   return (
     <div className="flex h-full flex-col">
-      <div className="flex h-16 shrink-0 items-center border-b px-4">
+      {/* Same height as the app header so the two line up */}
+      <div className="flex h-12 shrink-0 items-center px-5">
         <SidebarBrand onNavigate={onNavigate} />
       </div>
 
@@ -97,7 +107,7 @@ export function DesktopSidebar() {
   return (
     <aside
       aria-label="Sidebar"
-      className="fixed inset-y-0 left-0 z-30 hidden w-64 border-r bg-card lg:block"
+      className="fixed inset-y-0 left-0 z-30 hidden w-64 border-r border-foreground/10 bg-muted/50 lg:block"
     >
       <SidebarPanel />
     </aside>
@@ -112,7 +122,7 @@ export function MobileSidebar({ open, onOpenChange }) {
     <Sheet open={open} onOpenChange={onOpenChange}>
       <SheetContent
         side="left"
-        className="gap-0 p-0 data-[side=left]:w-72 data-[side=left]:max-w-[85vw] data-[side=left]:sm:max-w-72"
+        className="gap-0 border-foreground/10 bg-muted/95 p-0 backdrop-blur-[20px] backdrop-saturate-[1.8] data-[side=left]:w-72 data-[side=left]:max-w-[85vw] data-[side=left]:sm:max-w-72"
       >
         <SheetTitle className="sr-only">Navigation menu</SheetTitle>
         <SheetDescription className="sr-only">

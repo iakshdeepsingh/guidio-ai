@@ -1,12 +1,5 @@
 import { CheckCircle2, Mic, Target, Trophy } from "lucide-react";
 import { StatCard } from "@/components/common/stat-card";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 import { getHistoryStats, getScoreTrend } from "./history-utils";
 import { formatDate, getScoreTone } from "./interview-utils";
@@ -15,21 +8,23 @@ function ScoreTrend({ trend }) {
   const summary = trend.map((item) => item.overallScore).join(", ");
 
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>Score trend</CardTitle>
-        <CardDescription>
+    <section className="rounded-[1.5rem] bg-muted p-3 sm:p-4">
+      <div className="px-2 pb-4 pt-2 sm:px-3">
+        <h2 className="text-xl font-semibold leading-tight tracking-[-0.02em]">
+          Score trend
+        </h2>
+        <p className="mt-1 text-sm leading-6 text-muted-foreground">
           Your latest {trend.length} completed interviews, oldest on the left.
-        </CardDescription>
-      </CardHeader>
+        </p>
+      </div>
 
-      <CardContent className="space-y-2">
+      <div className="rounded-2xl bg-background p-4 sm:p-6">
         <div
           role="img"
           aria-label={`Interview scores from oldest to latest: ${summary}`}
-          className="space-y-2"
+          className="space-y-3"
         >
-          <div className="flex h-32 items-end gap-2">
+          <div className="flex h-36 items-end gap-2 border-b border-foreground/10 sm:h-40 sm:gap-3">
             {trend.map((item) => (
               <div
                 key={item.id}
@@ -38,7 +33,7 @@ function ScoreTrend({ trend }) {
               >
                 <div
                   className={cn(
-                    "w-full rounded-t-sm",
+                    "w-full rounded-t-xl transition-[height] duration-700 ease-out motion-reduce:transition-none",
                     getScoreTone(item.overallScore).bar
                   )}
                   style={{ height: `${Math.max(item.overallScore, 4)}%` }}
@@ -47,19 +42,19 @@ function ScoreTrend({ trend }) {
             ))}
           </div>
 
-          <div className="flex gap-2">
+          <div className="flex gap-2 sm:gap-3">
             {trend.map((item) => (
               <p
                 key={item.id}
-                className="flex-1 text-center text-xs tabular-nums text-muted-foreground"
+                className="flex-1 text-center text-xs font-medium tabular-nums text-muted-foreground"
               >
                 {item.overallScore}
               </p>
             ))}
           </div>
         </div>
-      </CardContent>
-    </Card>
+      </div>
+    </section>
   );
 }
 
@@ -68,10 +63,10 @@ export function HistoryOverview({ interviews }) {
   const trend = getScoreTrend(interviews);
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-3 sm:space-y-4">
       <section
         aria-label="Interview statistics"
-        className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4"
+        className="grid gap-3 sm:grid-cols-2 sm:gap-4 xl:grid-cols-4"
       >
         <StatCard
           label="Interviews"

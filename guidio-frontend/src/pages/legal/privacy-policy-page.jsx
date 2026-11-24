@@ -1,3 +1,4 @@
+import { BrainCircuit, EyeOff, ShieldCheck, Trash2 } from "lucide-react";
 
 import { LEGAL, SITE } from "@/lib/site-config";
 import {
@@ -9,10 +10,35 @@ import {
   TextLink,
 } from "@/pages/legal/legal-layout";
 
-function PrivacyPolicyPage() {
-  return (
-    <LegalLayout title="Privacy Policy" updated={SITE.legalUpdated}>
-      <LegalSection id="intro" title="1. Who we are">
+const highlights = [
+  {
+    icon: ShieldCheck,
+    title: "We never sell your data",
+    description: "Your information is used to run Guidio AI and nothing else.",
+  },
+  {
+    icon: EyeOff,
+    title: "No ads, no trackers",
+    description: "We don't show advertising or use marketing analytics.",
+  },
+  {
+    icon: BrainCircuit,
+    title: "AI by Gemini and Groq",
+    description: "Only what each AI request needs is sent to these providers.",
+  },
+  {
+    icon: Trash2,
+    title: "You can ask us to delete it",
+    description: "Write to us to get a copy of your data or have it deleted.",
+  },
+];
+
+const sections = [
+  {
+    id: "intro",
+    title: "1. Who we are",
+    content: (
+      <>
         <p>
           Guidio AI (“we”, “us”) is a free AI career companion for students. It
           offers an AI assistant, skill gap analysis, career guidance and mock
@@ -21,12 +47,16 @@ function PrivacyPolicyPage() {
         </p>
         <p>
           This policy explains what information we collect, how it is used and
-          what choices you have. You can contact us at{" "}
-          <EmailLink />.
+          what choices you have. You can contact us at <EmailLink />.
         </p>
-      </LegalSection>
-
-      <LegalSection id="collect" title="2. Information we collect">
+      </>
+    ),
+  },
+  {
+    id: "collect",
+    title: "2. Information we collect",
+    content: (
+      <>
         <p>
           <strong>Account information.</strong> When you sign up or sign in, our
           authentication provider, Clerk, handles your credentials. We receive
@@ -62,9 +92,14 @@ function PrivacyPolicyPage() {
           query strings. Our hosting providers may keep their own logs, which
           can include network information such as IP addresses.
         </p>
-      </LegalSection>
-
-      <LegalSection id="use" title="3. How we use your information">
+      </>
+    ),
+  },
+  {
+    id: "use",
+    title: "3. How we use your information",
+    content: (
+      <>
         <LegalList>
           <li>To create your account and keep you signed in</li>
           <li>To provide the features you use and save your results</li>
@@ -76,9 +111,14 @@ function PrivacyPolicyPage() {
           We do not sell your personal information. We do not show advertising,
           and we do not currently use analytics or marketing trackers.
         </p>
-      </LegalSection>
-
-      <LegalSection id="ai" title="4. How AI providers are used">
+      </>
+    ),
+  },
+  {
+    id: "ai",
+    title: "4. How AI providers are used",
+    content: (
+      <>
         <p>
           Guidio AI generates responses with third-party AI services: the
           Google Gemini API and Groq. When you use an AI feature, our server
@@ -115,9 +155,14 @@ function PrivacyPolicyPage() {
             terms for the plans in use and summarise them here]
           </Placeholder>
         </p>
-      </LegalSection>
-
-      <LegalSection id="sharing" title="5. Who we share information with">
+      </>
+    ),
+  },
+  {
+    id: "sharing",
+    title: "5. Who we share information with",
+    content: (
+      <>
         <p>
           We use the following service providers to run Guidio AI. They process
           information only as needed to provide their service:
@@ -144,9 +189,14 @@ function PrivacyPolicyPage() {
           We may also disclose information if the law requires it or to protect
           the rights, safety and security of our users and the service.
         </p>
-      </LegalSection>
-
-      <LegalSection id="cookies" title="6. Cookies and browser storage">
+      </>
+    ),
+  },
+  {
+    id: "cookies",
+    title: "6. Cookies and browser storage",
+    content: (
+      <>
         <LegalList>
           <li>
             <strong>Sign-in cookies (essential).</strong> Clerk sets cookies
@@ -165,29 +215,40 @@ function PrivacyPolicyPage() {
           is not essential, we will ask for your consent first and update this
           policy.
         </p>
-      </LegalSection>
-
-      <LegalSection id="security" title="7. Data security">
-        <p>
-          We take reasonable steps to protect your information, including
-          encrypted HTTPS connections, authentication for all private features,
-          validation of submitted data, request rate limiting, and keeping
-          secret keys on the server only. No online service can guarantee
-          perfect security, so we cannot promise absolute protection.
-        </p>
-      </LegalSection>
-
-      <LegalSection id="retention" title="8. Data retention">
-        <p>
-          We keep your information while your account is active. We do not
-          currently delete data automatically. You can delete individual AI
-          assistant conversations inside the app. After your account is closed
-          or you ask us to delete your data, our retention period is{" "}
-          <Placeholder>{LEGAL.retention}</Placeholder>.
-        </p>
-      </LegalSection>
-
-      <LegalSection id="rights" title="9. Your rights and deletion requests">
+      </>
+    ),
+  },
+  {
+    id: "security",
+    title: "7. Data security",
+    content: (
+      <p>
+        We take reasonable steps to protect your information, including
+        encrypted HTTPS connections, authentication for all private features,
+        validation of submitted data, request rate limiting, and keeping
+        secret keys on the server only. No online service can guarantee
+        perfect security, so we cannot promise absolute protection.
+      </p>
+    ),
+  },
+  {
+    id: "retention",
+    title: "8. Data retention",
+    content: (
+      <p>
+        We keep your information while your account is active. We do not
+        currently delete data automatically. You can delete individual AI
+        assistant conversations inside the app. After your account is closed
+        or you ask us to delete your data, our retention period is{" "}
+        <Placeholder>{LEGAL.retention}</Placeholder>.
+      </p>
+    ),
+  },
+  {
+    id: "rights",
+    title: "9. Your rights and deletion requests",
+    content: (
+      <>
         <LegalList>
           <li>
             View and update your name and student details on the Profile page,
@@ -196,9 +257,8 @@ function PrivacyPolicyPage() {
           <li>Delete your assistant conversations inside the app.</li>
           <li>
             Ask us to provide a copy of your data, correct it or delete your
-            account and stored records by writing to{" "}
-            <EmailLink />. We aim to respond within{" "}
-            <Placeholder>{LEGAL.responseTime}</Placeholder>.
+            account and stored records by writing to <EmailLink />. We aim to
+            respond within <Placeholder>{LEGAL.responseTime}</Placeholder>.
           </li>
         </LegalList>
         <p>
@@ -209,36 +269,107 @@ function PrivacyPolicyPage() {
             the required details]
           </Placeholder>
         </p>
-      </LegalSection>
+      </>
+    ),
+  },
+  {
+    id: "age",
+    title: "10. Age requirements",
+    content: (
+      <p>
+        <Placeholder>{LEGAL.minimumAge}</Placeholder>
+      </p>
+    ),
+  },
+  {
+    id: "transfers",
+    title: "11. Where information is processed",
+    content: (
+      <p>
+        Our service providers may process information on servers in countries
+        other than your own. By using Guidio AI you understand that your
+        information may be transferred and processed in those locations.
+      </p>
+    ),
+  },
+  {
+    id: "changes",
+    title: "12. Changes to this policy",
+    content: (
+      <p>
+        We may update this policy from time to time. The “Last updated” date
+        at the top shows when it last changed. If a change is significant,
+        we will make a reasonable effort to tell you.
+      </p>
+    ),
+  },
+  {
+    id: "contact",
+    title: "13. Contact",
+    content: (
+      <p>
+        Questions about this policy or your data: <EmailLink />. Please also
+        read our <TextLink to="/terms">Terms and Conditions</TextLink>.
+      </p>
+    ),
+  },
+];
 
-      <LegalSection id="age" title="10. Age requirements">
-        <p>
-          <Placeholder>{LEGAL.minimumAge}</Placeholder>
-        </p>
-      </LegalSection>
+function PrivacyPolicyPage() {
+  return (
+    <LegalLayout title="Privacy Policy" updated={SITE.legalUpdated}>
+      {/* At a glance */}
+      <div className="grid gap-3 sm:grid-cols-2">
+        {highlights.map((item) => {
+          const Icon = item.icon;
 
-      <LegalSection id="transfers" title="11. Where information is processed">
-        <p>
-          Our service providers may process information on servers in countries
-          other than your own. By using Guidio AI you understand that your
-          information may be transferred and processed in those locations.
-        </p>
-      </LegalSection>
+          return (
+            <div
+              key={item.title}
+              className="rounded-[1.5rem] bg-muted p-5 sm:p-6"
+            >
+              <span className="flex size-10 items-center justify-center rounded-full bg-foreground text-background">
+                <Icon aria-hidden="true" className="size-[18px]" />
+              </span>
+              <p className="mt-5 text-lg font-semibold leading-tight tracking-[-0.02em] text-foreground">
+                {item.title}
+              </p>
+              <p className="mt-1.5 text-sm leading-6 text-muted-foreground">
+                {item.description}
+              </p>
+            </div>
+          );
+        })}
+      </div>
 
-      <LegalSection id="changes" title="12. Changes to this policy">
-        <p>
-          We may update this policy from time to time. The “Last updated” date
-          at the top shows when it last changed. If a change is significant,
-          we will make a reasonable effort to tell you.
+      {/* Contents */}
+      <nav
+        aria-label="On this page"
+        className="rounded-[1.5rem] border border-foreground/10 p-5 sm:p-6"
+      >
+        <p className="text-xs font-semibold tracking-tight text-muted-foreground">
+          On this page
         </p>
-      </LegalSection>
 
-      <LegalSection id="contact" title="13. Contact">
-        <p>
-          Questions about this policy or your data: <EmailLink />. Please also
-          read our <TextLink to="/terms">Terms and Conditions</TextLink>.
-        </p>
-      </LegalSection>
+        <ol className="mt-4 grid gap-x-8 gap-y-2.5 sm:grid-cols-2">
+          {sections.map((section) => (
+            <li key={section.id}>
+              <a
+                href={`#${section.id}`}
+                className="text-sm tracking-[-0.01em] text-foreground/80 transition-colors hover:text-foreground hover:underline hover:underline-offset-4 focus-visible:outline-none focus-visible:underline"
+              >
+                {section.title}
+              </a>
+            </li>
+          ))}
+        </ol>
+      </nav>
+
+      {sections.map((section) => (
+        <LegalSection key={section.id} id={section.id} title={section.title}>
+          {section.content}
+        </LegalSection>
+      ))}
     </LegalLayout>
   );
 }

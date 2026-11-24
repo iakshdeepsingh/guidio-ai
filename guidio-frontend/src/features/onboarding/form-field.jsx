@@ -1,5 +1,9 @@
+import { CircleAlert } from "lucide-react";
 import { Label } from "@/components/ui/label";
 import { cn } from "@/lib/utils";
+
+const labelClass =
+  "flex items-center gap-2 text-sm font-semibold leading-none tracking-[-0.01em]";
 
 /**
  * Label + hint + error wrapper for one form control.
@@ -45,7 +49,9 @@ export function FormField({
     <>
       {label}
       {optional ? (
-        <span className="font-normal text-muted-foreground">(optional)</span>
+        <span className="text-xs font-normal text-muted-foreground">
+          (optional)
+        </span>
       ) : null}
     </>
   );
@@ -53,27 +59,36 @@ export function FormField({
   return (
     <div
       data-invalid={error ? "true" : undefined}
-      className={cn("space-y-2", className)}
+      className={cn("space-y-2.5", className)}
     >
-      {group ? (
-        <p id={labelId} className="flex items-center gap-2 text-sm font-medium leading-none">
-          {labelContent}
-        </p>
-      ) : (
-        <Label htmlFor={id}>{labelContent}</Label>
-      )}
+      <div className="space-y-1">
+        {group ? (
+          <p id={labelId} className={labelClass}>
+            {labelContent}
+          </p>
+        ) : (
+          <Label htmlFor={id} className={labelClass}>
+            {labelContent}
+          </Label>
+        )}
 
-      {hint ? (
-        <p id={hintId} className="text-xs leading-5 text-muted-foreground">
-          {hint}
-        </p>
-      ) : null}
+        {hint ? (
+          <p id={hintId} className="text-xs leading-5 text-muted-foreground">
+            {hint}
+          </p>
+        ) : null}
+      </div>
 
       {children(control)}
 
       {error ? (
-        <p id={errorId} role="alert" className="text-sm text-destructive">
-          {error}
+        <p
+          id={errorId}
+          role="alert"
+          className="flex items-start gap-1.5 text-sm font-medium leading-5 text-destructive"
+        >
+          <CircleAlert aria-hidden="true" className="mt-0.5 size-4 shrink-0" />
+          <span>{error}</span>
         </p>
       ) : null}
     </div>

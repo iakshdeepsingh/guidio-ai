@@ -4,8 +4,8 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="color-scheme" content="dark light" />
-    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
-    <meta name="theme-color" content="#050505" media="(prefers-color-scheme: dark)" />
+    <!-- Set from the site's saved theme by the script below -->
+    <meta name="theme-color" content="#050505" />
 
     <title>Guidio AI — Your Personal AI Career Companion</title>
     <meta
@@ -45,27 +45,26 @@
       content="Guidio AI: your personal AI career companion for skill gap analysis, career guidance and mock interviews."
     />
 
-    <!-- Applies the saved theme before first paint to avoid a light/dark flash. -->
+    <!-- Applies the saved theme before first paint to avoid a light/dark flash.
+         Must match ThemeProvider: same storage key, same default, light/dark only.
+         It also sets the browser bar color (theme-color) to match. -->
     <script>
       (function () {
         var root = document.documentElement;
+        var theme = "dark";
+
         try {
           var stored = localStorage.getItem("Guidio-Ai-theme");
-          var theme =
-            stored === "light" || stored === "dark" || stored === "system"
-              ? stored
-              : "dark";
-          var resolved =
-            theme === "system"
-              ? window.matchMedia("(prefers-color-scheme: dark)").matches
-                ? "dark"
-                : "light"
-              : theme;
-          root.classList.add(resolved);
-          root.style.colorScheme = resolved;
+          if (stored === "light" || stored === "dark") theme = stored;
         } catch (error) {
-          root.classList.add("dark");
+          // Storage can be unavailable (private mode). The dark default stays.
         }
+
+        root.classList.add(theme);
+        root.style.colorScheme = theme;
+
+        var bar = document.querySelector('meta[name="theme-color"]');
+        if (bar) bar.setAttribute("content", theme === "dark" ? "#050505" : "#ffffff");
       })();
     </script>
   </head>

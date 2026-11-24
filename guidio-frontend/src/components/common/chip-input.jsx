@@ -84,20 +84,20 @@ export function ChipInput({
   }
 
   return (
-    <div className={cn("space-y-2.5", className)}>
+    <div className={cn("space-y-3", className)}>
       <div
         className={cn(
-          "rounded-lg border border-field bg-transparent p-2 transition-colors focus-within:border-ring focus-within:ring-3 focus-within:ring-ring/50 dark:bg-input/30",
+          "rounded-2xl border border-field bg-background p-2 transition-colors focus-within:border-ring focus-within:ring-3 focus-within:ring-ring/50",
           ariaInvalid &&
             "border-destructive focus-within:border-destructive focus-within:ring-destructive/20"
         )}
       >
         {value.length > 0 ? (
-          <ul className="mb-2 flex flex-wrap gap-1.5">
+          <ul className="mb-2 flex flex-wrap gap-1.5 px-1 pt-1">
             {value.map((item) => (
               <li
                 key={item}
-                className="inline-flex max-w-full items-center gap-1 rounded-md bg-muted py-1 pl-2 pr-1 text-sm"
+                className="inline-flex max-w-full items-center gap-1 rounded-full bg-foreground py-1 pl-3 pr-1 text-sm font-medium tracking-[-0.01em] text-background"
               >
                 <span className="truncate">{item}</span>
                 <button
@@ -105,7 +105,7 @@ export function ChipInput({
                   onClick={() => removeItem(item)}
                   disabled={disabled}
                   aria-label={`Remove ${item}`}
-                  className="flex size-6 shrink-0 items-center justify-center rounded text-muted-foreground transition-colors hover:bg-foreground/10 hover:text-foreground"
+                  className="flex size-6 shrink-0 items-center justify-center rounded-full text-background/70 outline-none transition-colors hover:bg-background/20 hover:text-background focus-visible:ring-2 focus-visible:ring-background/60"
                 >
                   <X aria-hidden="true" className="size-3.5" />
                 </button>
@@ -126,32 +126,34 @@ export function ChipInput({
             autoComplete="off"
             aria-invalid={ariaInvalid}
             aria-describedby={ariaDescribedBy}
-            className="h-9 flex-1 border-0 bg-transparent px-1 shadow-none focus-visible:ring-0 dark:bg-transparent"
+            className="h-10 flex-1 border-0 bg-transparent px-2 shadow-none focus-visible:ring-0 dark:bg-transparent"
           />
 
           <Button
             type="button"
-            variant="outline"
+            variant="ghost"
             size="icon"
             // Keep focus in the field so the blur handler does not add the text twice.
             onMouseDown={(event) => event.preventDefault()}
             onClick={() => addItems(draft)}
             disabled={disabled || isFull || !draft.trim()}
             aria-label="Add item"
-            className="size-9"
+            className="size-10 shrink-0 rounded-full bg-muted hover:bg-foreground/[0.1]"
           >
             <Plus aria-hidden="true" />
           </Button>
         </div>
       </div>
 
-      <p className="text-xs text-muted-foreground">
+      <p className="px-1 text-xs tabular-nums text-muted-foreground">
         Press Enter or comma to add · {value.length}/{maxItems}
       </p>
 
       {visibleSuggestions.length > 0 && !isFull ? (
-        <div className="space-y-1.5">
-          <p className="text-xs font-medium text-muted-foreground">Suggestions</p>
+        <div className="space-y-2">
+          <p className="px-1 text-xs font-semibold tracking-tight text-muted-foreground">
+            Suggestions
+          </p>
           <ul className="flex flex-wrap gap-1.5">
             {visibleSuggestions.map((item) => (
               <li key={item}>
@@ -159,7 +161,7 @@ export function ChipInput({
                   type="button"
                   onClick={() => addItems(item)}
                   disabled={disabled}
-                  className="inline-flex items-center gap-1 rounded-md border border-dashed px-2 py-1 text-xs text-muted-foreground transition-colors hover:border-solid hover:bg-muted hover:text-foreground"
+                  className="inline-flex min-h-8 items-center gap-1.5 rounded-full bg-muted px-3.5 py-1.5 text-xs font-medium tracking-[-0.01em] text-muted-foreground outline-none transition-colors duration-200 hover:bg-foreground/[0.08] hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring/60 disabled:cursor-not-allowed disabled:opacity-50"
                 >
                   <Plus aria-hidden="true" className="size-3" />
                   {item}

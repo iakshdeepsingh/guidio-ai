@@ -5,10 +5,13 @@ import { useTheme } from "@/hooks/use-theme";
  * Clerk injects its own unlayered CSS, which beats Tailwind v4 utility
  * classes. So Clerk is themed through its `variables` and style objects
  * instead, using the same black-and-white values as globals.css.
+ *
+ * `card` is the soft gray tile behind the form. Keep it equal to your
+ * `--muted` token so the form matches the skeleton and the landing tiles.
  */
 const palettes = {
   light: {
-    background: "#ffffff",
+    card: "#f5f5f5",
     text: "#050505",
     muted: "#6b6b6b",
     primary: "#050505",
@@ -21,7 +24,7 @@ const palettes = {
     warning: "#92400e",
   },
   dark: {
-    background: "#111111",
+    card: "#1a1a1a",
     text: "#ffffff",
     muted: "#a3a3a3",
     primary: "#ffffff",
@@ -45,7 +48,7 @@ export function useClerkAppearance() {
       variables: {
         colorPrimary: p.primary,
         colorTextOnPrimaryBackground: p.onPrimary,
-        colorBackground: p.background,
+        colorBackground: p.card,
         colorText: p.text,
         colorTextSecondary: p.muted,
         colorNeutral: p.text,
@@ -56,7 +59,7 @@ export function useClerkAppearance() {
         colorWarning: p.warning,
         fontFamily:
           '"Geist Variable", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif',
-        borderRadius: "0.5rem",
+        borderRadius: "0.75rem",
       },
       elements: {
         rootBox: { width: "100%" },
@@ -64,13 +67,33 @@ export function useClerkAppearance() {
           width: "100%",
           maxWidth: "100%",
           boxShadow: "none",
+          border: "none",
+          borderRadius: "1.75rem",
+          overflow: "hidden",
+        },
+        card: { boxShadow: "none", padding: "2rem" },
+        footer: { background: "transparent" },
+        dividerLine: { background: p.border },
+        socialButtonsBlockButton: {
+          boxShadow: "none",
+          height: "3rem",
+          borderRadius: "9999px",
           border: `1px solid ${p.border}`,
+          background: p.input,
+        },
+        formButtonPrimary: {
+          boxShadow: "none",
+          textTransform: "none",
+          height: "3rem",
+          borderRadius: "9999px",
+          fontSize: "1.0625rem",
+          fontWeight: 500,
+        },
+        formFieldInput: {
+          borderColor: p.field,
+          height: "3rem",
           borderRadius: "0.75rem",
         },
-        card: { boxShadow: "none" },
-        socialButtonsBlockButton: { boxShadow: "none" },
-        formButtonPrimary: { boxShadow: "none", textTransform: "none" },
-        formFieldInput: { borderColor: p.field },
       },
     };
   }, [resolvedTheme]);

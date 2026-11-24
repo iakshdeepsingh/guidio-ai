@@ -10,8 +10,10 @@ function ConversationItem({ conversation, isActive, disabled, onSelect, onDelete
 
   if (confirming) {
     return (
-      <li className="flex items-center gap-1.5 rounded-lg bg-accent px-2.5 py-1.5">
-        <span className="min-w-0 flex-1 truncate text-sm">Delete this chat?</span>
+      <li className="flex items-center gap-1.5 rounded-2xl bg-foreground/[0.08] py-1.5 pl-3.5 pr-1.5">
+        <span className="min-w-0 flex-1 truncate text-sm font-medium tracking-[-0.01em]">
+          Delete this chat?
+        </span>
 
         <Button
           type="button"
@@ -21,6 +23,7 @@ function ConversationItem({ conversation, isActive, disabled, onSelect, onDelete
             setConfirming(false);
             onDelete(conversation.id);
           }}
+          className="h-8 rounded-full px-3.5"
         >
           Delete
         </Button>
@@ -30,6 +33,7 @@ function ConversationItem({ conversation, isActive, disabled, onSelect, onDelete
           variant="ghost"
           size="sm"
           onClick={() => setConfirming(false)}
+          className="h-8 rounded-full px-3"
         >
           Cancel
         </Button>
@@ -40,8 +44,8 @@ function ConversationItem({ conversation, isActive, disabled, onSelect, onDelete
   return (
     <li
       className={cn(
-        "group flex items-center rounded-lg transition-colors",
-        isActive ? "bg-accent" : "hover:bg-accent/60"
+        "group flex items-center rounded-2xl transition-colors duration-200",
+        isActive ? "bg-foreground/[0.08]" : "hover:bg-foreground/[0.05]"
       )}
     >
       <button
@@ -50,8 +54,10 @@ function ConversationItem({ conversation, isActive, disabled, onSelect, onDelete
         disabled={disabled}
         aria-current={isActive ? "true" : undefined}
         className={cn(
-          "flex min-w-0 flex-1 items-center gap-2.5 rounded-lg px-2.5 py-2 text-left text-sm disabled:opacity-60",
-          isActive ? "font-medium text-foreground" : "text-muted-foreground"
+          "flex min-w-0 flex-1 items-center gap-2.5 rounded-2xl px-3 py-2.5 text-left text-sm tracking-[-0.01em] outline-none focus-visible:ring-2 focus-visible:ring-ring/60 disabled:opacity-60",
+          isActive
+            ? "font-semibold text-foreground"
+            : "font-medium text-muted-foreground group-hover:text-foreground"
         )}
       >
         <MessageSquare aria-hidden="true" className="size-4 shrink-0" />
@@ -65,7 +71,7 @@ function ConversationItem({ conversation, isActive, disabled, onSelect, onDelete
         onClick={() => setConfirming(true)}
         disabled={disabled}
         aria-label={`Delete conversation: ${conversation.title}`}
-        className="mr-1 text-muted-foreground hover:text-destructive focus-visible:opacity-100 lg:opacity-0 lg:group-hover:opacity-100"
+        className="mr-1 rounded-full text-muted-foreground hover:text-destructive focus-visible:opacity-100 lg:opacity-0 lg:group-hover:opacity-100"
       >
         <Trash2 aria-hidden="true" />
       </Button>
@@ -93,7 +99,7 @@ export function ConversationList({
           type="button"
           onClick={onNewChat}
           disabled={disabled}
-          className="h-9 flex-1 justify-start"
+          className="h-11 flex-1 justify-start rounded-full px-4 text-sm font-medium"
         >
           <Plus aria-hidden="true" />
           New chat
@@ -106,6 +112,7 @@ export function ConversationList({
             size="icon-lg"
             onClick={onClose}
             aria-label="Close chat history"
+            className="rounded-full"
           >
             <X aria-hidden="true" />
           </Button>
@@ -120,14 +127,17 @@ export function ConversationList({
           <div role="status" className="space-y-2">
             <span className="sr-only">Loading chats…</span>
             {[0, 1, 2, 3, 4].map((index) => (
-              <Skeleton key={index} className="h-9 w-full rounded-lg" />
+              <Skeleton
+                key={index}
+                className="h-10 w-full rounded-2xl bg-foreground/10"
+              />
             ))}
           </div>
         ) : null}
 
         {status === "error" ? (
-          <div className="rounded-lg border border-dashed p-4 text-center">
-            <p className="text-sm text-muted-foreground">
+          <div className="rounded-2xl bg-muted p-5 text-center">
+            <p className="text-sm font-medium tracking-[-0.01em] text-muted-foreground">
               Your chats could not be loaded.
             </p>
             <Button
@@ -135,7 +145,7 @@ export function ConversationList({
               variant="outline"
               size="sm"
               onClick={onRetry}
-              className="mt-3"
+              className="mt-3 h-9 rounded-full border-foreground/10 bg-background px-4"
             >
               <RefreshCw aria-hidden="true" />
               Try again
@@ -152,7 +162,7 @@ export function ConversationList({
         {status === "ready"
           ? groups.map((group) => (
               <section key={group.label} className="mb-4 last:mb-0">
-                <h2 className="px-2.5 pb-1.5 text-xs font-medium text-muted-foreground">
+                <h2 className="px-3 pb-1.5 pt-1 text-xs font-semibold tracking-tight text-muted-foreground">
                   {group.label}
                 </h2>
 

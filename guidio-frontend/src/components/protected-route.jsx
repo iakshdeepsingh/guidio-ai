@@ -15,11 +15,13 @@ function ProtectedRoute({ children }) {
         <div
           role="status"
           aria-live="polite"
-          className="flex flex-col items-center gap-5 text-center"
+          // Short delay so a fast load does not flash this screen
+          style={{ animationDelay: "150ms", animationFillMode: "both" }}
+          className="animate-in fade-in slide-in-from-bottom-2 flex flex-col items-center gap-6 text-center duration-500 motion-reduce:animate-none"
         >
-          <Logo to={null} />
+          <Logo to={null} className="scale-125" />
 
-          <p className="flex items-center gap-2 text-sm text-muted-foreground">
+          <p className="inline-flex items-center gap-2.5 rounded-full bg-muted px-4 py-2.5 text-sm font-medium tracking-[-0.01em] text-muted-foreground">
             <LoaderCircle aria-hidden="true" className="size-4 animate-spin" />
             Loading your workspace...
           </p>

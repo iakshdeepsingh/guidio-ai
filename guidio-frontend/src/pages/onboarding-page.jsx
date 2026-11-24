@@ -18,27 +18,37 @@ import {
   validateStep,
 } from "@/features/onboarding/onboarding-data";
 import { OnboardingWizard } from "@/features/onboarding/onboarding-wizard";
+import { cn } from "@/lib/utils";
 
 const DEFAULT_COOLDOWN_SECONDS = 30;
+
+// The wizard is a soft gray tile, so the bars use a slightly darker tone.
+const bar = "bg-foreground/10";
 
 function OnboardingSkeleton() {
   return (
     <div role="status" aria-live="polite" className="space-y-6">
       <span className="sr-only">Loading your profile</span>
 
-      <div className="space-y-3">
-        <Skeleton className="h-4 w-40" />
-        <Skeleton className="h-1 w-full" />
+      <div className="space-y-4">
+        <div className="flex justify-between gap-3">
+          <Skeleton className={cn("h-4 w-28 rounded-full", bar)} />
+          <Skeleton className={cn("h-4 w-10 rounded-full", bar)} />
+        </div>
+        <Skeleton className={cn("h-1.5 w-full rounded-full", bar)} />
       </div>
 
-      <div className="space-y-6 rounded-xl border bg-card p-5 sm:p-8">
-        <div className="space-y-2">
-          <Skeleton className="h-7 w-40" />
-          <Skeleton className="h-4 w-64 max-w-full" />
+      <div className="rounded-[1.5rem] bg-muted p-3 sm:rounded-[2rem] sm:p-4">
+        <div className="space-y-3 px-2 pb-5 pt-3 sm:px-4 sm:pt-4">
+          <Skeleton className={cn("h-9 w-48 rounded-xl", bar)} />
+          <Skeleton className={cn("h-4 w-72 max-w-full rounded-full", bar)} />
         </div>
-        <Skeleton className="h-10 w-full" />
-        <Skeleton className="h-24 w-full" />
-        <Skeleton className="h-10 w-full" />
+
+        <div className="space-y-6 rounded-2xl bg-background p-4 sm:rounded-[1.5rem] sm:p-8">
+          <Skeleton className="h-11 w-full rounded-xl bg-muted" />
+          <Skeleton className="h-24 w-full rounded-2xl bg-muted" />
+          <Skeleton className="h-11 w-full rounded-xl bg-muted" />
+        </div>
       </div>
     </div>
   );
@@ -226,15 +236,16 @@ function OnboardingPage() {
 
   return (
     <div className="min-h-screen bg-background text-foreground">
-      <header className="border-b">
-        <div className="container flex h-16 max-w-3xl items-center justify-between gap-3">
+      {/* Same frosted bar as the landing navbar */}
+      <header className="sticky top-0 z-40 border-b border-foreground/10 bg-background/72 backdrop-blur-[20px] backdrop-saturate-[1.8]">
+        <div className="container flex h-12 max-w-3xl items-center justify-between gap-3">
           <Logo />
 
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1">
             {status === "ready" && view === "wizard" ? (
               <Link
                 to="/dashboard"
-                className="rounded-md px-2 py-1 text-sm text-muted-foreground transition-colors hover:text-foreground"
+                className="rounded-full px-3 py-1.5 text-xs tracking-[-0.01em] text-foreground/70 outline-none transition-colors hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring/60"
               >
                 Skip for now
               </Link>
@@ -245,7 +256,7 @@ function OnboardingPage() {
         </div>
       </header>
 
-      <main className="container max-w-3xl py-8 sm:py-12">
+      <main className="container max-w-3xl py-8 sm:py-14">
         {status === "loading" ? <OnboardingSkeleton /> : null}
 
         {status === "error" ? (

@@ -27,7 +27,7 @@ function exampleOf(list) {
 
 export function BasicsStep({ form, errors, onChange, disabled }) {
   return (
-    <div className="space-y-6">
+    <div className="space-y-7">
       <FormField
         name="fullName"
         label="Full name"
@@ -42,7 +42,7 @@ export function BasicsStep({ form, errors, onChange, disabled }) {
             placeholder="Example: Aarav Sharma"
             autoComplete="name"
             disabled={disabled}
-            className="h-10"
+            className="h-11"
           />
         )}
       </FormField>
@@ -70,7 +70,7 @@ export function BasicsStep({ form, errors, onChange, disabled }) {
             placeholder="Example: Arka Jain University"
             autoComplete="organization"
             disabled={disabled}
-            className="h-10"
+            className="h-11"
           />
         )}
       </FormField>
@@ -82,7 +82,7 @@ export function AcademicsStep({ form, errors, onChange, disabled }) {
   const field = getFieldProfile(form.field);
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-7">
       <FormField
         name="field"
         label="Field of study"
@@ -109,7 +109,7 @@ export function AcademicsStep({ form, errors, onChange, disabled }) {
               placeholder={exampleOf(field.degrees)}
               autoComplete="off"
               disabled={disabled}
-              className="h-10"
+              className="h-11"
             />
             <SuggestionButtons
               options={field.degrees}
@@ -136,7 +136,7 @@ export function AcademicsStep({ form, errors, onChange, disabled }) {
               placeholder={exampleOf(field.branches)}
               autoComplete="off"
               disabled={disabled}
-              className="h-10"
+              className="h-11"
             />
             <SuggestionButtons
               options={field.branches}
@@ -165,7 +165,7 @@ export function AcademicsStep({ form, errors, onChange, disabled }) {
             inputMode="numeric"
             autoComplete="off"
             disabled={disabled}
-            className="h-10 sm:max-w-40"
+            className="h-11 sm:max-w-40"
           />
         )}
       </FormField>
@@ -199,7 +199,7 @@ export function SkillsStep({ form, errors, onChange, disabled }) {
   ).size;
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-7">
       <FormField
         name="skills"
         label="Skills and knowledge"
@@ -242,7 +242,7 @@ export function SkillsStep({ form, errors, onChange, disabled }) {
         </FormField>
       ) : null}
 
-      <p className="text-xs text-muted-foreground">
+      <p className="inline-flex rounded-full bg-muted px-3 py-1 text-xs font-medium tabular-nums text-muted-foreground">
         {total} of {LIMITS.maxSkills} skills added.
       </p>
     </div>
@@ -253,7 +253,7 @@ export function DirectionStep({ form, errors, onChange, disabled }) {
   const field = getFieldProfile(form.field);
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-7">
       <FormField
         name="targetRole"
         label="Preferred career role"
@@ -269,7 +269,7 @@ export function DirectionStep({ form, errors, onChange, disabled }) {
               placeholder={exampleOf(field.roles)}
               autoComplete="off"
               disabled={disabled}
-              className="h-10"
+              className="h-11"
             />
             <SuggestionButtons
               options={field.roles}

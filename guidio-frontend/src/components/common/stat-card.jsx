@@ -1,4 +1,3 @@
-import { Card } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { cn } from "@/lib/utils";
 
@@ -17,26 +16,35 @@ export function StatCard({
   const hasValue = value !== null && value !== undefined && value !== "";
 
   return (
-    <Card className={cn("gap-3", className)}>
-      <div className="flex items-center justify-between gap-3 px-(--card-spacing)">
-        <p className="truncate text-sm text-muted-foreground">{label}</p>
+    <div
+      className={cn(
+        "group space-y-4 rounded-[1.5rem] bg-muted p-5 transition-transform duration-300 hover:-translate-y-0.5 sm:p-6",
+        className
+      )}
+    >
+      <div className="flex items-center justify-between gap-3">
+        <p className="truncate text-sm font-medium tracking-tight text-muted-foreground">
+          {label}
+        </p>
 
         {Icon ? (
-          <Icon aria-hidden="true" className="size-4 shrink-0 text-muted-foreground" />
+          <span className="flex size-8 shrink-0 items-center justify-center rounded-full bg-foreground text-background">
+            <Icon aria-hidden="true" className="size-4" />
+          </span>
         ) : null}
       </div>
 
-      <div className="space-y-1 px-(--card-spacing)">
+      <div className="space-y-1.5">
         {loading ? (
           <>
-            <Skeleton className="h-8 w-20" />
-            <Skeleton className="h-3.5 w-28" />
+            <Skeleton className="h-9 w-24 rounded-xl bg-foreground/10" />
+            <Skeleton className="h-3.5 w-28 rounded-full bg-foreground/10" />
           </>
         ) : (
           <>
             <p
               className={cn(
-                "text-3xl font-semibold tracking-tight tabular-nums",
+                "text-4xl font-semibold leading-none tracking-[-0.04em] tabular-nums",
                 !hasValue && "text-muted-foreground"
               )}
             >
@@ -49,6 +57,6 @@ export function StatCard({
           </>
         )}
       </div>
-    </Card>
+    </div>
   );
 }

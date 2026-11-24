@@ -4,7 +4,6 @@ import { ArrowRight, Bell, CheckCheck, LoaderCircle, TriangleAlert } from "lucid
 import { Link } from "react-router";
 import { Button } from "@/components/ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { Separator } from "@/components/ui/separator";
 import { Skeleton } from "@/components/ui/skeleton";
 import { getSafeRedirect } from "@/features/auth/auth-redirect";
 import { apiRequest } from "@/lib/api-client";
@@ -172,19 +171,19 @@ function NotificationPopover() {
       <PopoverTrigger asChild>
         <Button
           type="button"
-          variant="outline"
+          variant="ghost"
           size="icon"
           aria-label={
             unreadCount > 0
               ? `Notifications, ${unreadCount} unread`
               : "Notifications"
           }
-          className="relative size-9"
+          className="relative size-8 shrink-0 rounded-full border-0 text-foreground/70 transition-colors hover:bg-foreground/10 hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring/60"
         >
-          <Bell aria-hidden="true" />
+          <Bell aria-hidden="true" className="size-[18px]" />
 
           {unreadCount > 0 ? (
-            <span className="absolute -right-1 -top-1 flex h-4 min-w-4 items-center justify-center rounded-full bg-primary px-1 text-[10px] font-semibold text-primary-foreground">
+            <span className="absolute -right-0.5 -top-0.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-foreground px-1 text-[10px] font-semibold tabular-nums text-background ring-2 ring-background">
               {unreadCount > 9 ? "9+" : unreadCount}
             </span>
           ) : null}
@@ -193,12 +192,15 @@ function NotificationPopover() {
 
       <PopoverContent
         align="end"
-        className="w-[calc(100vw-2rem)] max-w-md rounded-xl p-0"
+        sideOffset={10}
+        className="w-[calc(100vw-2rem)] max-w-md rounded-[1.5rem] border-foreground/10 bg-popover/90 p-2 shadow-[0_24px_48px_-24px] shadow-foreground/30 backdrop-blur-[20px] backdrop-saturate-[1.8]"
       >
-        <div className="flex items-center justify-between gap-3 px-4 py-3">
+        <div className="flex items-center justify-between gap-3 px-3 pb-3 pt-2.5">
           <div className="min-w-0">
-            <p className="text-sm font-semibold">Notifications</p>
-            <p className="text-xs text-muted-foreground">
+            <p className="text-base font-semibold leading-tight tracking-[-0.02em]">
+              Notifications
+            </p>
+            <p className="mt-0.5 text-xs text-muted-foreground">
               Your weekly readiness reminders
             </p>
           </div>
@@ -210,7 +212,7 @@ function NotificationPopover() {
               size="sm"
               onClick={markAllRead}
               disabled={isMarkingAllRead}
-              className="shrink-0"
+              className="h-8 shrink-0 rounded-full bg-muted px-3.5 text-xs"
             >
               {isMarkingAllRead ? (
                 <LoaderCircle aria-hidden="true" className="animate-spin" />
@@ -222,47 +224,64 @@ function NotificationPopover() {
           ) : null}
         </div>
 
-        <Separator />
-
-        <div className="max-h-96 overflow-y-auto p-2">
+        <div className="max-h-96 space-y-1.5 overflow-y-auto">
           {actionError ? (
-            <p role="alert" className="px-3 py-2 text-xs text-destructive">
+            <p
+              role="alert"
+              className="rounded-2xl bg-destructive/10 px-4 py-3 text-xs font-medium text-destructive"
+            >
               {actionError}
             </p>
           ) : null}
 
           {status === "loading" ? (
-            <div role="status" aria-busy="true" className="space-y-2 p-2">
+            <div role="status" aria-busy="true" className="space-y-1.5">
               <span className="sr-only">Loading notifications…</span>
               {[1, 2, 3].map((item) => (
-                <Skeleton key={item} className="h-16 w-full rounded-lg" />
+                <Skeleton
+                  key={item}
+                  className="h-20 w-full rounded-2xl bg-foreground/10"
+                />
               ))}
             </div>
           ) : null}
 
           {status === "error" ? (
-            <div role="alert" className="m-2 space-y-3 rounded-lg border p-4">
-              <div className="flex items-start gap-2">
-                <TriangleAlert
-                  aria-hidden="true"
-                  className="mt-0.5 size-4 shrink-0 text-destructive"
-                />
-                <p className="text-sm leading-6 text-muted-foreground">{error}</p>
+            <div role="alert" className="space-y-3 rounded-2xl bg-muted p-4">
+              <div className="flex items-start gap-3">
+                <span className="flex size-8 shrink-0 items-center justify-center rounded-full bg-destructive text-white">
+                  <TriangleAlert aria-hidden="true" className="size-4" />
+                </span>
+                <p className="pt-1 text-sm leading-6 text-muted-foreground">
+                  {error}
+                </p>
               </div>
 
-              <Button type="button" variant="outline" size="sm" onClick={handleRetry}>
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                onClick={handleRetry}
+                className="h-9 rounded-full border-foreground/10 bg-background px-4"
+              >
                 Try again
               </Button>
             </div>
           ) : null}
 
           {status === "ready" && reminders.length === 0 ? (
-            <div className="flex flex-col items-center justify-center gap-2 px-6 py-10 text-center">
-              <Bell aria-hidden="true" className="size-8 text-muted-foreground" />
-              <p className="text-sm font-medium">No notifications yet</p>
-              <p className="text-xs leading-5 text-muted-foreground">
-                Weekly readiness reminders will appear here once they are sent.
-              </p>
+            <div className="flex flex-col items-center justify-center gap-3 rounded-2xl bg-muted px-6 py-10 text-center">
+              <span className="flex size-11 items-center justify-center rounded-full bg-foreground text-background">
+                <Bell aria-hidden="true" className="size-5" />
+              </span>
+              <div className="space-y-1">
+                <p className="text-base font-semibold tracking-[-0.02em]">
+                  No notifications yet
+                </p>
+                <p className="text-xs leading-5 text-muted-foreground">
+                  Weekly readiness reminders will appear here once they are sent.
+                </p>
+              </div>
             </div>
           ) : null}
 
@@ -273,31 +292,43 @@ function NotificationPopover() {
                   to={getSafeRedirect(reminder.actionHref) ?? "/dashboard"}
                   onClick={() => handleReminderClick(reminder.id)}
                   className={cn(
-                    "relative block rounded-lg p-3 transition-colors hover:bg-muted",
-                    !reminder.isRead && "bg-muted/60"
+                    "group relative block rounded-2xl p-4 outline-none transition-colors duration-200 focus-visible:ring-2 focus-visible:ring-ring/60",
+                    reminder.isRead
+                      ? "hover:bg-muted"
+                      : "bg-muted hover:bg-foreground/[0.08]"
                   )}
                 >
                   {!reminder.isRead ? (
                     <span
                       aria-hidden="true"
-                      className="absolute right-3 top-3 size-2 rounded-full bg-primary"
+                      className="absolute right-4 top-4 size-2 rounded-full bg-foreground"
                     />
                   ) : null}
 
                   <div className="space-y-1 pr-5">
-                    <p className="text-sm font-medium">{reminder.title}</p>
+                    <p
+                      className={cn(
+                        "text-sm tracking-[-0.01em]",
+                        reminder.isRead ? "font-medium" : "font-semibold"
+                      )}
+                    >
+                      {reminder.title}
+                    </p>
                     <p className="text-sm leading-6 text-muted-foreground">
                       {reminder.message}
                     </p>
 
-                    <div className="flex items-center justify-between gap-3 pt-1">
+                    <div className="flex items-center justify-between gap-3 pt-1.5">
                       <span className="text-xs text-muted-foreground">
                         {formatReminderTime(reminder.createdAt)}
                       </span>
 
-                      <span className="inline-flex items-center gap-1 text-xs font-medium">
+                      <span className="inline-flex items-center gap-1 text-xs font-semibold text-primary">
                         {reminder.actionLabel || "Open"}
-                        <ArrowRight aria-hidden="true" className="size-3.5" />
+                        <ArrowRight
+                          aria-hidden="true"
+                          className="size-3.5 transition-transform duration-200 group-hover:translate-x-0.5"
+                        />
                       </span>
                     </div>
                   </div>

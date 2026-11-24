@@ -1,6 +1,4 @@
 import { Check } from "lucide-react";
-import { Badge } from "@/components/ui/badge";
-import { Card, CardContent } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 
 const STATUS_LABELS = {
@@ -27,18 +25,22 @@ export function InterviewProgress({
   const percent = steps.length > 0 ? Math.round((answered / steps.length) * 100) : 0;
 
   return (
-    <Card>
-      <CardContent className="space-y-4">
+    <section className="rounded-[1.5rem] bg-muted p-3 sm:p-4">
+      <div className="space-y-4 rounded-2xl bg-background p-4 sm:p-5">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div className="flex min-w-0 flex-wrap items-center gap-1.5">
-            <Badge variant="secondary">{interview.interviewType}</Badge>
-            <Badge variant="outline">{interview.difficulty}</Badge>
-            <span className="min-w-0 break-words text-sm font-medium">
+            <span className="rounded-full bg-muted px-2.5 py-0.5 text-xs font-medium">
+              {interview.interviewType}
+            </span>
+            <span className="rounded-full bg-muted px-2.5 py-0.5 text-xs font-medium text-muted-foreground">
+              {interview.difficulty}
+            </span>
+            <span className="min-w-0 break-words text-base font-semibold tracking-[-0.02em]">
               {interview.targetRole}
             </span>
           </div>
 
-          <p className="text-sm tabular-nums text-muted-foreground">
+          <p className="text-sm font-medium tabular-nums tracking-[-0.01em] text-muted-foreground">
             {answered} of {steps.length} answered
           </p>
         </div>
@@ -49,10 +51,10 @@ export function InterviewProgress({
           aria-valuemin={0}
           aria-valuemax={100}
           aria-valuenow={percent}
-          className="h-1.5 overflow-hidden rounded-full bg-muted"
+          className="h-1.5 overflow-hidden rounded-full bg-foreground/10"
         >
           <div
-            className="h-full rounded-full bg-foreground transition-[width]"
+            className="h-full rounded-full bg-foreground transition-[width] duration-700 ease-out motion-reduce:transition-none"
             style={{ width: `${percent}%` }}
           />
         </div>
@@ -71,17 +73,22 @@ export function InterviewProgress({
                   aria-current={isActive ? "step" : undefined}
                   aria-label={`Question ${step.number}, ${STATUS_LABELS[step.status]}`}
                   className={cn(
-                    "flex size-9 items-center justify-center rounded-full border text-sm font-medium tabular-nums transition-colors",
+                    "flex size-10 items-center justify-center rounded-full text-sm font-semibold tabular-nums outline-none transition-all duration-200",
+                    "focus-visible:ring-2 focus-visible:ring-ring/60",
                     "disabled:cursor-not-allowed",
-                    isActive && "border-foreground bg-foreground text-background",
+                    // Open question you are on: solid black
+                    isActive && "bg-foreground text-background",
+                    // Answered: soft gray with a check
                     !isActive &&
                       step.status === "answered" &&
-                      "border-success/40 bg-success/10 text-success hover:bg-success/20",
+                      "bg-muted text-foreground hover:bg-foreground/[0.1]",
+                    // Current question, not open right now: ringed
                     !isActive &&
                       step.status === "current" &&
-                      "border-foreground/40 hover:bg-accent",
+                      "bg-background text-foreground ring-2 ring-foreground/40 hover:ring-foreground",
+                    // Locked
                     step.status === "upcoming" &&
-                      "border-dashed text-muted-foreground opacity-60"
+                      "border border-dashed border-foreground/20 text-muted-foreground opacity-60"
                   )}
                 >
                   {step.status === "answered" ? (
@@ -94,7 +101,7 @@ export function InterviewProgress({
             );
           })}
         </ol>
-      </CardContent>
-    </Card>
+      </div>
+    </section>
   );
 }

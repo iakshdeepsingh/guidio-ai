@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { History, Plus, X } from "lucide-react";
 import { AiErrorNotice } from "@/components/common/ai-error-notice";
-import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import {
   Sheet,
@@ -55,119 +54,124 @@ function AssistantPage() {
   };
 
   return (
-    <div className="flex h-[calc(100dvh-7.5rem)] min-h-[26rem] overflow-hidden rounded-xl border bg-card">
-      {/* Chat history: fixed column on large screens */}
-      <aside className="hidden w-72 shrink-0 border-r lg:block">
-        <ConversationList {...listProps} />
-      </aside>
+    /* Framed like the landing preview. The height leaves room for the
+       header and the page padding from AppLayout. */
+    <div className="h-[calc(100dvh-6.5rem)] min-h-[26rem] rounded-[1.5rem] border border-foreground/10 bg-muted/40 p-1.5 sm:h-[calc(100dvh-7.5rem)] sm:rounded-[2rem] sm:p-2 lg:h-[calc(100dvh-8.5rem)]">
+      <div className="flex h-full overflow-hidden rounded-[1.1rem] border border-foreground/10 bg-background sm:rounded-[1.5rem]">
+        {/* Chat history: fixed column on large screens */}
+        <aside className="hidden w-72 shrink-0 border-r border-foreground/10 bg-muted/50 lg:block">
+          <ConversationList {...listProps} />
+        </aside>
 
-      {/* Chat history: slide-in panel on smaller screens */}
-      <Sheet open={historyOpen} onOpenChange={setHistoryOpen}>
-        <SheetContent
-          side="left"
-          showCloseButton={false}
-          className="data-[side=left]:w-[85vw] gap-0 p-0 lg:hidden"
-        >
-          <SheetTitle className="sr-only">Chat history</SheetTitle>
-          <SheetDescription className="sr-only">
-            Your previous conversations with the AI Student Assistant.
-          </SheetDescription>
-
-          <ConversationList
-            {...listProps}
-            onClose={() => setHistoryOpen(false)}
-          />
-        </SheetContent>
-      </Sheet>
-
-      <section className="flex min-w-0 flex-1 flex-col">
-        <div className="flex items-center gap-2 border-b px-3 py-2.5 sm:px-4">
-          <Button
-            type="button"
-            variant="outline"
-            size="icon-lg"
-            onClick={() => setHistoryOpen(true)}
-            aria-label="Open chat history"
-            className="lg:hidden"
+        {/* Chat history: slide-in panel on smaller screens */}
+        <Sheet open={historyOpen} onOpenChange={setHistoryOpen}>
+          <SheetContent
+            side="left"
+            showCloseButton={false}
+            className="gap-0 border-foreground/10 bg-muted/95 p-0 backdrop-blur-[20px] backdrop-saturate-[1.8] data-[side=left]:w-[85vw] lg:hidden"
           >
-            <History aria-hidden="true" />
-          </Button>
+            <SheetTitle className="sr-only">Chat history</SheetTitle>
+            <SheetDescription className="sr-only">
+              Your previous conversations with the AI Student Assistant.
+            </SheetDescription>
 
-          <div className="min-w-0 flex-1">
-            <h1 className="truncate text-sm font-semibold">
-              AI Student Assistant
-            </h1>
-            <p className="truncate text-xs text-muted-foreground">
-              {activeTitle || "New conversation"}
-            </p>
-          </div>
-
-          <Button
-            type="button"
-            variant="outline"
-            size="lg"
-            onClick={handleNewChat}
-            disabled={isSending}
-            className="lg:hidden"
-          >
-            <Plus aria-hidden="true" />
-            <span className="hidden sm:inline">New chat</span>
-            <span className="sr-only sm:hidden">New chat</span>
-          </Button>
-        </div>
-
-        <ChatThread
-          messages={messages}
-          activeId={activeId}
-          isLoading={isLoadingMessages}
-          isSending={isSending}
-          emptyState={
-            <ChatEmptyState
-              onPick={(prompt) => assistant.sendMessage(prompt)}
-              disabled={isSending || cooldown.isCoolingDown}
+            <ConversationList
+              {...listProps}
+              onClose={() => setHistoryOpen(false)}
             />
-          }
-        />
+          </SheetContent>
+        </Sheet>
 
-        {pageError || sendError ? (
-          <div className="mx-auto w-full max-w-3xl space-y-2 px-3 pb-3 sm:px-4">
-            {pageError ? (
-              <Alert variant="destructive" className="pr-10">
-                <AlertDescription className="text-destructive/90">
-                  {pageError}
-                </AlertDescription>
+        <section className="flex min-w-0 flex-1 flex-col">
+          <div className="flex items-center gap-2 border-b border-foreground/10 px-3 py-2.5 sm:px-4">
+            <Button
+              type="button"
+              variant="ghost"
+              size="icon-lg"
+              onClick={() => setHistoryOpen(true)}
+              aria-label="Open chat history"
+              className="rounded-full bg-muted lg:hidden"
+            >
+              <History aria-hidden="true" />
+            </Button>
 
-                <Button
-                  type="button"
-                  variant="ghost"
-                  size="icon-sm"
-                  onClick={assistant.dismissPageError}
-                  aria-label="Dismiss message"
-                  className="absolute right-2 top-2"
-                >
-                  <X aria-hidden="true" />
-                </Button>
-              </Alert>
-            ) : null}
+            <div className="min-w-0 flex-1">
+              <h1 className="truncate text-sm font-semibold tracking-tight">
+                AI Student Assistant
+              </h1>
+              <p className="truncate text-xs text-muted-foreground">
+                {activeTitle || "New conversation"}
+              </p>
+            </div>
 
-            {sendError ? (
-              <AiErrorNotice
-                error={sendError}
-                onRetry={draft.trim() ? () => assistant.sendMessage() : undefined}
-                cooldownSeconds={cooldown.remaining}
-              />
-            ) : null}
+            <Button
+              type="button"
+              variant="ghost"
+              size="lg"
+              onClick={handleNewChat}
+              disabled={isSending}
+              className="rounded-full bg-muted px-4 lg:hidden"
+            >
+              <Plus aria-hidden="true" />
+              <span className="hidden sm:inline">New chat</span>
+              <span className="sr-only sm:hidden">New chat</span>
+            </Button>
           </div>
-        ) : null}
 
-        <ChatComposer
-          value={draft}
-          onChange={assistant.setDraft}
-          onSend={() => assistant.sendMessage()}
-          isSending={isSending}
-          cooldownSeconds={cooldown.remaining}
-        />
-      </section>
+          <ChatThread
+            messages={messages}
+            activeId={activeId}
+            isLoading={isLoadingMessages}
+            isSending={isSending}
+            emptyState={
+              <ChatEmptyState
+                onPick={(prompt) => assistant.sendMessage(prompt)}
+                disabled={isSending || cooldown.isCoolingDown}
+              />
+            }
+          />
+
+          {pageError || sendError ? (
+            <div className="mx-auto w-full max-w-3xl space-y-2 px-3 pb-3 sm:px-4">
+              {pageError ? (
+                <div
+                  role="alert"
+                  className="relative rounded-[1.5rem] bg-destructive/10 py-4 pl-5 pr-14 text-sm leading-6 text-destructive"
+                >
+                  {pageError}
+
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    size="icon-sm"
+                    onClick={assistant.dismissPageError}
+                    aria-label="Dismiss message"
+                    className="absolute right-2.5 top-2.5 rounded-full text-destructive hover:bg-destructive/10 hover:text-destructive"
+                  >
+                    <X aria-hidden="true" />
+                  </Button>
+                </div>
+              ) : null}
+
+              {sendError ? (
+                <AiErrorNotice
+                  error={sendError}
+                  onRetry={draft.trim() ? () => assistant.sendMessage() : undefined}
+                  cooldownSeconds={cooldown.remaining}
+                />
+              ) : null}
+            </div>
+          ) : null}
+
+          <ChatComposer
+            value={draft}
+            onChange={assistant.setDraft}
+            onSend={() => assistant.sendMessage()}
+            isSending={isSending}
+            cooldownSeconds={cooldown.remaining}
+          />
+        </section>
+      </div>
     </div>
   );
 }
