@@ -1,198 +1,438 @@
-Guidio AI
-Guidio AI is a free AI-powered career guidance and study-support platform for students and fresh graduates from any field of study. Students create a profile, then get personalised skill-gap analysis, career roadmaps, mock interviews and an AI study assistant.
-Status: frontend and backend are complete. Backend details, API reference and AI provider setup are in [README.md](guidio-backend/README.md).
+
+<div align="center">
+
+# 🎓 Guidio AI
+
+### Your Career. Your Skills. Your Future.
+
+**An AI-powered career development platform built to help students discover their potential, identify skill gaps, explore career opportunities, and become job-ready.**
+
+<br />
+
+[![React](https://img.shields.io/badge/React-19-61DAFB?style=for-the-badge&logo=react&logoColor=black)](https://react.dev/)
+[![Vite](https://img.shields.io/badge/Vite-8-646CFF?style=for-the-badge&logo=vite&logoColor=white)](https://vite.dev/)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white)](https://tailwindcss.com/)
+[![Node.js](https://img.shields.io/badge/Node.js-24-339933?style=for-the-badge&logo=nodedotjs&logoColor=white)](https://nodejs.org/)
+[![MongoDB](https://img.shields.io/badge/MongoDB-Atlas-47A248?style=for-the-badge&logo=mongodb&logoColor=white)](https://www.mongodb.com/)
+
+<br />
+
+[Features](#-what-guidio-ai-offers) ·
+[Architecture](#-system-architecture) ·
+[Tech Stack](#-technology-stack) ·
+[Installation](#-getting-started) ·
+[Deployment](#-deployment)
+
+<br />
+
+**Discover → Analyse → Learn → Practise → Achieve**
+
+</div>
 
 ---
-Table of contents
-1. Features
-2. Screenshots
-3. Tech stack
-4. Architecture
-5. Folder structure
-6. Prerequisites
-7. Windows 11 setup
-8. Environment variables
-9. Run locally (localhost)
-10. Run on your local network (LAN)
-11. API overview
-12. Clerk Development Mode
-13. AI providers and free-tier limitations
-14. MongoDB configuration
-15. Deployment
-16. GitHub workflow
-17. Troubleshooting
-18. Security notes
-19. Free hosting limitations
+
+## About the Project
+
+Choosing the right career is not always easy.
+
+Students often have the motivation to succeed but lack clarity about which skills to develop, which career path to follow, how to prepare for interviews, and what steps to take next.
+
+**Guidio AI is designed to bridge that gap.**
+
+It is a full-stack AI-powered platform that brings career guidance, skill-gap analysis, personalised learning roadmaps, mock interviews, and an intelligent study assistant into one unified experience.
+
+Instead of navigating multiple disconnected tools, students can use one platform to understand where they stand and plan where they want to go.
+
+### The Guidio AI Approach
+
+```text
+       YOUR PROFILE
+             |
+             ▼
+      SKILL ANALYSIS
+             |
+             ▼
+      CAREER GUIDANCE
+             |
+             ▼
+    PERSONAL LEARNING PLAN
+             |
+             ▼
+     PROJECT RECOMMENDATIONS
+             |
+             ▼
+     AI MOCK INTERVIEWS
+             |
+             ▼
+       CAREER READINESS
+```
+
 ---
-Features
-- Landing page with feature overview, how it works, FAQ and calls to action.
-- Authentication with Clerk (sign in, sign up, protected routes, redirect handling).
-- Student onboarding: four steps that save to your account after each step.
-- Student dashboard: profile completion, career readiness score, skill match, interview count, recent activity, next steps. Every number comes from the backend. If there is no data yet, an empty state is shown.
-- AI Student Assistant: streaming chat, conversation history, Markdown and code rendering, copy button.
-- Skill Gap Analysis: match percentage, strengths, missing skills by priority, learning plan, project ideas, report history.
-- Career Guidance: readiness score, recommended and alternative roles, roadmap, projects, interview topics, plan history.
-- AI Mock Interview: Technical, HR or Mixed interviews, three difficulty levels, per-answer feedback and scores, final summary.
-- Interview History: past interviews with scores, status and detailed feedback.
-- Student Profile: edit education, skills, interests and career goals, with unsaved-changes protection.
-- Settings: account information from Clerk, light/dark/system theme, sign-in methods, sign out and AI usage information.
-- Weekly readiness reminders and notifications (background job with Inngest).
-- Light and dark themes, responsive from 320 px phones to large desktops.
-Screenshots
-Add your own screenshots to a docs/screenshots/ folder and link them here:
 
-![Landing page](docs/screenshots/landing.png)
+## ✨ What Guidio AI Offers
 
-![Dashboard](docs/screenshots/dashboard.png)
+Guidio AI brings together five major AI-powered experiences.
 
-![Mock interview](docs/screenshots/mock-interview.png)
+<table>
+<tr>
+<td width="50%">
 
-Tech stack
-| Area | Technology |
+### 🤖 AI Student Assistant
 
+An intelligent study companion that helps students understand concepts, solve problems, explore technical topics, and learn through conversational AI.
+
+</td>
+<td width="50%">
+
+### 🧠 Skill Gap Analysis
+
+Evaluates existing skills against a target role, identifies missing competencies, and generates personalised learning recommendations.
+
+</td>
+</tr>
+<tr>
+<td width="50%">
+
+### 🧭 AI Career Guidance
+
+Provides career recommendations, alternative roles, readiness insights, learning roadmaps, and project suggestions.
+
+</td>
+<td width="50%">
+
+### 🎤 AI Mock Interviews
+
+Creates interactive technical, HR, and mixed interviews with configurable difficulty, answer evaluation, scoring, and feedback.
+
+</td>
+</tr>
+<tr>
+<td width="50%">
+
+### 📊 Student Dashboard
+
+A centralised space for tracking profile completion, career readiness, skill development, interview activity, and recommended next steps.
+
+</td>
+<td width="50%">
+
+### 👤 Personalised Student Profile
+
+Maintains education, experience, skills, interests, and career goals to support personalised recommendations.
+
+</td>
+</tr>
+</table>
+
+---
+
+## 🚀 Platform Highlights
+
+| Area | Capabilities |
 |---|---|
+| Authentication | Clerk sign-in, sign-up, protected routes |
+| Onboarding | Four-step student profile setup |
+| Dashboard | Backend-driven progress and activity |
+| AI Assistant | Streaming responses and conversation history |
+| Skill Analysis | Skill matching, gaps, priorities, learning plans |
+| Career Guidance | Career paths, readiness, roadmaps |
+| Mock Interviews | Technical, HR, mixed, multiple difficulty levels |
+| Interview History | Scores, feedback, and previous sessions |
+| Profile Management | Education, skills, interests, career goals |
+| Notifications | Weekly reminders through Inngest |
+| User Experience | Responsive interface and theme preferences |
 
-| Frontend | React 19, Vite 8, JavaScript (JSX), React Router 8 |
+---
 
-| Styling and UI | Tailwind CSS 4, shadcn-style components on Base UI, Lucide icons |
+## 📸 Application Preview
 
-| Authentication | Clerk (@clerk/react, @clerk/express) |
+> Screenshots are stored in `docs/screenshots/`. Replace these examples with actual application screenshots.
 
-| Backend | Node.js, Express 5 |
+### 01 — Landing Page
 
-| Database | MongoDB with Prisma ORM 6 |
+<p align="center">
+  <img src="docs/screenshots/landing.png" alt="Guidio AI Landing Page" width="100%" />
+</p>
 
-| AI | Google Gemini (primary), Groq (fallback) and optional local Ollama, with automatic failover |
+### 02 — Student Dashboard
 
-| Background jobs | Inngest |
+<p align="center">
+  <img src="docs/screenshots/dashboard.png" alt="Guidio AI Student Dashboard" width="100%" />
+</p>
 
-| Validation and security | Zod, Helmet, CORS, express-rate-limit |
+### 03 — AI Mock Interview
 
-| Hosting | Vercel (frontend), Render (backend), MongoDB Atlas (database) |
-Architecture
+<p align="center">
+  <img src="docs/screenshots/mock-interview.png" alt="Guidio AI Mock Interview" width="100%" />
+</p>
 
- Browser (React + Clerk)
+---
 
-        │  HTTPS, Authorization: Bearer \<Clerk session token>
+## 🏗️ System Architecture
 
-        ▼
+Guidio AI uses a client-server architecture with a React frontend, an Express backend, MongoDB persistence, and multiple AI providers.
 
- Vercel (static frontend)          Render (Express API)
+```text
+┌──────────────────────────────────────────────┐
+│                  STUDENT                     │
+│             Browser / Mobile Web             │
+└──────────────────────┬───────────────────────┘
+                       │
+                       ▼
+┌──────────────────────────────────────────────┐
+│               REACT FRONTEND                 │
+│                                              │
+│       React 19 · Vite · Tailwind CSS 4       │
+│          React Router · Clerk                │
+└──────────────────────┬───────────────────────┘
+                       │
+                  Authenticated
+                    REST API
+                       │
+                       ▼
+┌──────────────────────────────────────────────┐
+│               EXPRESS BACKEND                │
+│                                              │
+│       Authentication · Validation            │
+│       Rate Limiting · Controllers             │
+│       Services · AI Orchestration             │
+└───────────────┬──────────────────┬───────────┘
+                │                  │
+                ▼                  ▼
+┌────────────────────────┐  ┌──────────────────┐
+│       DATABASE         │  │   AI PROVIDERS   │
+│                        │  │                  │
+│   MongoDB Atlas        │  │   1. Gemini      │
+│   Prisma ORM           │  │   2. Groq         │
+│                        │  │   3. Ollama      │
+└────────────────────────┘  └──────────────────┘
+                │
+                ▼
+┌──────────────────────────────────────────────┐
+│             BACKGROUND PROCESSING            │
+│                    Inngest                   │
+│             Weekly Readiness Reminders       │
+└──────────────────────────────────────────────┘
+```
 
-                                     │
+### Security Design
 
-                                     ├── Clerk  (verifies the session token)
+Security-sensitive operations are handled by the backend.
 
-                                     ├── MongoDB via Prisma  (users, profiles, plans, interviews)
+- Clerk session verification.
+- Protected API endpoints.
+- Server-side database access.
+- Server-side AI provider communication.
+- Input validation.
+- Rate limiting.
+- Security headers.
+- Environment-based secret management.
 
-                                     ├── AI providers (Gemini, then Groq, then optional Ollama; server-side only)
+The browser does not directly access MongoDB or private AI provider credentials.
 
-                                     └── Inngest  (weekly reminders, interview summaries)
+---
 
-- The browser never talks to MongoDB or an AI provider. Only the Express API does.
-- The browser only holds the Clerk publishable key. Secret keys live on the server.
-- The AI Assistant streams answers with Server-Sent Events.
-Folder structure
+## 🧠 AI Provider Strategy
 
+Guidio AI uses multiple AI providers to improve service availability.
+
+```text
+             AI REQUEST
+                 |
+                 ▼
+              GEMINI
+                 |
+          Request Successful?
+             /       \
+           YES        NO
+            |          |
+            ▼          ▼
+         RESPONSE     GROQ
+                       |
+                Request Successful?
+                    /       \
+                  YES        NO
+                   |          |
+                   ▼          ▼
+                RESPONSE   OLLAMA
+```
+
+### Provider Responsibilities
+
+| Provider | Purpose |
+|---|---|
+| Google Gemini | Primary AI provider |
+| Groq | Fallback AI provider |
+| Ollama | Local AI fallback |
+
+Additional handling includes:
+
+- HTTP 429 rate-limit detection.
+- Clear user-facing wait messages.
+- Preservation of typed messages.
+- Protection against repeated failing requests.
+- Backend-only provider credentials.
+
+---
+
+## 🛠️ Technology Stack
+
+### Frontend
+
+| Technology | Purpose |
+|---|---|
+| React 19 | Component-based user interface |
+| Vite 8 | Development and build tooling |
+| JavaScript / JSX | Application language |
+| React Router 8 | Client-side navigation |
+| Tailwind CSS 4 | Utility-first styling |
+| Base UI | Accessible UI primitives |
+| Lucide | Interface icons |
+| Clerk | Frontend authentication |
+
+### Backend
+
+| Technology | Purpose |
+|---|---|
+| Node.js | JavaScript runtime |
+| Express 5 | Backend API framework |
+| Prisma 6 | Database ORM |
+| MongoDB | Database |
+| Zod | Request validation |
+| Helmet | Security headers |
+| express-rate-limit | API rate limiting |
+| Inngest | Background jobs |
+
+### Artificial Intelligence
+
+- Google Gemini
+- Groq
+- Ollama
+
+### Infrastructure
+
+| Service | Purpose |
+|---|---|
+| Vercel | Frontend deployment |
+| Render | Backend deployment |
+| MongoDB Atlas | Cloud database |
+| Inngest | Background processing |
+| Clerk | Authentication infrastructure |
+
+---
+
+## 📁 Project Structure
+
+```text
 Guidio-Ai/
-
-├── guidio-frontend/             React frontend (deployed to Vercel)
-
+│
+├── guidio-frontend/
 │   ├── public/
-
 │   ├── src/
-
-│   │   ├── app/                 Theme context and provider
-
+│   │   ├── app/
 │   │   ├── components/
-
-│   │   │   ├── common/          Shared pieces: page header, empty/error states, skeletons...
-
-│   │   │   └── ui/              shadcn-style base components
-
-│   │   ├── features/            One folder per feature
-
-│   │   │   ├── assistant/ auth/ career/ dashboard/ interview/
-
-│   │   │   ├── landing/ onboarding/ profile/ settings/ skill-gap/
-
-│   │   ├── hooks/               use-theme, use-cooldown
-
-│   │   ├── layouts/             App layout (sidebar + header)
-
-│   │   ├── lib/                 api-client, navigation, AI error helpers
-
-│   │   ├── pages/               Route-level pages (lazy-loaded)
-
-│   │   ├── styles/              globals.css (design tokens)
-
-│   │   ├── App.jsx              Routes
-
-│   │   └── main.jsx             Clerk + router + theme providers
-
+│   │   │   ├── common/
+│   │   │   └── ui/
+│   │   ├── features/
+│   │   │   ├── assistant/
+│   │   │   ├── auth/
+│   │   │   ├── career/
+│   │   │   ├── dashboard/
+│   │   │   ├── interview/
+│   │   │   ├── landing/
+│   │   │   ├── onboarding/
+│   │   │   ├── profile/
+│   │   │   ├── settings/
+│   │   │   └── skill-gap/
+│   │   ├── hooks/
+│   │   ├── layouts/
+│   │   ├── lib/
+│   │   ├── pages/
+│   │   ├── styles/
+│   │   ├── App.jsx
+│   │   └── main.jsx
 │   ├── .env.example
-
-│   └── vercel.json              SPA rewrite for React Router
-
-├── guidio-backend/              Express API (deployed to Render)
-
-│   ├── prisma/schema.prisma
-
+│   └── vercel.json
+│
+├── guidio-backend/
+│   ├── prisma/
+│   │   └── schema.prisma
 │   ├── src/
-
-│   │   ├── ai/                  Provider manager, Gemini/Groq/Ollama adapters, prompts and schemas
-
-│   │   ├── config/              env.js, prisma.js
-
+│   │   ├── ai/
+│   │   ├── config/
 │   │   ├── controllers/
-
-│   │   ├── inngest/             Background functions
-
-│   │   ├── middleware/          auth, validation, rate limits, error handlers
-
+│   │   ├── inngest/
+│   │   ├── middleware/
 │   │   ├── routes/
-
 │   │   ├── services/
-
 │   │   ├── utils/
-
 │   │   └── server.js
-
 │   └── .env.example
-
+│
 └── README.md
+```
 
-Prerequisites
-- Node.js 22.22 or newer (22 LTS). The frontend's router needs it. Check with node -v.
-- npm (included with Node.js).
-- Git.
-- VS Code (recommended).
-- Free accounts: Clerk, MongoDB Atlas, Google AI Studio (for a Gemini API key), GitHub. For deployment: Vercel and Render. Optional: Inngest.
-Windows 11 setup
-1. Install Node.js (LTS, version 22.22 or newer) from <https://nodejs.org>. Open a new terminal and check:
-   
-   node -v
-   
-   npm -v
-   
-   git --version
-2. Open the project folder in VS Code and use Terminal → New Terminal (PowerShell).
-3. If PowerShell says npm.ps1 cannot be loaded because running scripts is disabled, run this once, then open a new terminal:
-   
-   Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy RemoteSigned
-   
-   (Or use Command Prompt instead of PowerShell.)
-Frontend installation
+---
 
+## ⚙️ Getting Started
+
+Follow these instructions to run Guidio AI on your local machine.
+
+### Prerequisites
+
+Make sure you have installed:
+
+- Node.js 22.22+
+- npm
+- Git
+- Visual Studio Code
+
+Create accounts for the required services:
+
+| Service | Purpose |
+|---|---|
+| [Clerk](https://clerk.com/) | Authentication |
+| [MongoDB Atlas](https://www.mongodb.com/atlas) | Database |
+| [Google AI Studio](https://aistudio.google.com/) | Gemini API |
+| [GitHub](https://github.com/) | Source control |
+
+Optional services:
+
+- [Groq](https://console.groq.com/)
+- [Ollama](https://ollama.com/)
+- [Inngest](https://www.inngest.com/)
+
+Verify your installation:
+
+```powershell
+node -v
+npm -v
+git --version
+```
+
+### 1. Clone the Repository
+
+```powershell
+git clone https://github.com/<your-username>/<your-repository>.git
+
+cd Guidio-Ai
+```
+
+### 2. Install Frontend Dependencies
+
+```powershell
 cd guidio-frontend
 
 npm install
 
 copy .env.example .env.local
+```
 
-Then edit guidio-frontend/.env.local (see Environment variables).
-Backend installation
+### 3. Install Backend Dependencies
 
+Open another terminal:
+
+```powershell
 cd guidio-backend
 
 npm install
@@ -200,290 +440,308 @@ npm install
 copy .env.example .env
 
 npx prisma generate
+```
 
-Then edit guidio-backend/.env.
+For a completely new MongoDB database, synchronize the schema:
 
-If your Atlas database is brand new and empty, create its collections once:
-
+```powershell
 npx prisma db push
+```
 
-(MongoDB does not use prisma migrate. db push applies the schema directly. It does not delete existing data for additive changes, but always read what Prisma prints before confirming anything.)
-Environment variables
-Real values go only in guidio-frontend/.env.local and guidio-backend/.env. Both are ignored by Git. The .env.example files contain placeholders and are safe to commit.
-Frontend (guidio-frontend/.env.local, public by design)
-Everything starting with VITE_ is embedded in the browser bundle. Never put a secret here.
+> This project uses Prisma's `db push` workflow for MongoDB schema synchronization.
 
-| Variable | Purpose |
+---
 
-|---|---|
+## 🔑 Environment Configuration
 
-| VITE_API_BASE_URL | Backend address, for example http://localhost:5000. No trailing slash needed. |
+### Frontend
 
-| VITE_CLERK_PUBLISHABLE_KEY | Clerk publishable key (pk_test_...). Safe to expose. |
-Backend (guidio-backend/.env, secret)
-| Variable | Required | Purpose |
+Create `guidio-frontend/.env.local`:
 
-|---|---|---|
+```env
+VITE_API_BASE_URL=http://localhost:5000
+VITE_CLERK_PUBLISHABLE_KEY=pk_test_...
+```
 
-| PORT | yes | Port the API listens on (default 5000). Render sets this for you. |
+### Backend
 
-| NODE_ENV | no | development locally, production on Render. |
+Create `guidio-backend/.env`:
 
-| CORS_ORIGINS | production | Comma-separated frontend origins allowed by CORS, for example https://your-app.vercel.app. The older CLIENT_URL, FRONTEND_URL and FRONTEND_LOCAL still work. |
+```env
+PORT=5000
+NODE_ENV=development
 
-| FRONTEND_LOCAL | no | Extra allowed origin. Defaults to http://localhost:5173. |
+CORS_ORIGINS=http://localhost:5173
+FRONTEND_LOCAL=http://localhost:5173
 
-| FRONTEND_URL | no | Extra allowed origin, used for your LAN address (see below). |
+CLERK_SECRET_KEY=sk_test_...
+CLERK_PUBLISHABLE_KEY=pk_test_...
 
-| CLERK_SECRET_KEY | yes | Clerk secret key (sk_test_...). Never expose. |
+DATABASE_URL=mongodb+srv://<user>:<password>@<cluster>.mongodb.net/guidio-ai
 
-| CLERK_PUBLISHABLE_KEY | yes | Same publishable key as the frontend. Used by the Clerk middleware. |
+GEMINI_API_KEY=...
+GROQ_API_KEY=...
 
-| DATABASE_URL | yes | MongoDB connection string. Secret. |
+GEMINI_MODEL=...
+GROQ_MODEL=...
 
-| GEMINI_API_KEY | one AI key | Google Gemini key. Secret. Add GROQ_API_KEY for a free fallback. |
+INNGEST_DEV=1
+```
 
-| INNGEST_DEV | no | 1 for local development with the Inngest dev server. Leave unset in production. |
+**Important security notes:**
 
-| INNGEST_EVENT_KEY | production | Inngest event key, if you use Inngest Cloud. |
+- Never commit `.env` or `.env.local`.
+- Never expose Clerk secret keys.
+- Never expose database connection strings.
+- Never place AI provider API keys in frontend variables.
+- Only frontend configuration intended for public use should use the `VITE_` prefix.
 
-| INNGEST_SIGNING_KEY | production | Read automatically by the Inngest SDK in production, if you use Inngest Cloud. |
+---
 
-The server refuses to start if DATABASE_URL, CLERK_SECRET_KEY or CLERK_PUBLISHABLE_KEY is missing, if no AI provider is configured, or if CORS_ORIGINS is empty in production. See [README.md](guidio-backend/README.md) for every variable.
-Run locally (localhost)
-Use two terminals.
+## ▶️ Run the Application
 
-Terminal 1: backend
+Guidio AI requires two development servers.
 
+### Backend
+
+```powershell
 cd guidio-backend
 
 npm run dev
+```
 
-You should see Guidio-Ai Backend Started and the port. Check <http://localhost:5000/api/health>. It should return "status": "healthy".
+Health endpoint:
 
-Terminal 2: frontend
+```text
+http://localhost:5000/api/health
+```
 
+Expected response:
+
+```json
+{
+  "status": "healthy"
+}
+```
+
+### Frontend
+
+```powershell
 cd guidio-frontend
 
 npm run dev
+```
 
-Open <http://localhost:5173>.
+Open the application:
 
-Other useful frontend commands:
+**http://localhost:5173**
 
-npm run lint      # ESLint
+---
 
-npm run build     # production build into guidio-frontend/dist
+## 🔌 API Overview
 
-npm run preview   # serve the production build locally
+All endpoints except `/api/health` require an authenticated Clerk session.
 
-Optional: to inspect bundle sizes, run $env:ANALYZE="true"; npm run build and open guidio-frontend/dist/stats.html.
-Run on your local network (LAN)
-This lets a phone or another laptop on the same Wi-Fi open the app running on your Windows laptop.
-1. Find your laptop's IPv4 address. In PowerShell run ipconfig and look for IPv4 Address under your Wi-Fi adapter, for example 192.168.1.25. It can change when you reconnect. Check it again if LAN access suddenly stops working.
-2. Frontend: Vite is already configured with host: true, so it listens on all network interfaces. After npm run dev, Vite prints a Network: URL.
-3. Point the frontend at the backend using the LAN address. In guidio-frontend/.env.local:
-   
-   VITE_API_BASE_URL=http://192.168.1.25:5000
-   
-   Restart npm run dev after changing it. (localhost would point to the phone itself, not your laptop.)
-4. Allow the frontend origin in the backend CORS list. In guidio-backend/.env:
-   
-   FRONTEND_URL=http://192.168.1.25:5173
-   
-   Restart the backend. The server prints every allowed origin on start-up. Check yours is listed.
-5. Windows Firewall. Allow inbound connections on both ports for Private networks. Run PowerShell as Administrator:
-   
-   New-NetFirewallRule -DisplayName "Guidio AI Frontend 5173" -Direction Inbound -Protocol TCP -LocalPort 5173 -Action Allow -Profile Private
-   
-   New-NetFirewallRule -DisplayName "Guidio AI Backend 5000" -Direction Inbound -Protocol TCP -LocalPort 5000 -Action Allow -Profile Private
-   
-   Make sure your Wi-Fi is set to a Private network (Settings → Network & internet → Wi-Fi → your network → Network profile type).
-6. On the phone, open http://192.168.1.25:5173.
-Clerk note: Clerk Development instances work on localhost and on LAN addresses. If sign-in behaves strangely on the phone, see Troubleshooting.
-API overview
-All routes except health require Authorization: Bearer \<Clerk session token>. Responses use { "success": true|false, "message": "...", "data": ... }.
+```http
+Authorization: Bearer <Clerk session token>
+```
 
-| Method and path | Purpose |
+### Main API Routes
 
+| Method | Endpoint | Description |
+|---|---|---|
+| GET | `/api/health` | Health check |
+| GET | `/api/users/me` | Current user synchronization |
+| GET | `/api/profile` | Retrieve student profile |
+| PUT | `/api/profile` | Update student profile |
+| GET | `/api/dashboard` | Dashboard information |
+| GET | `/api/assistant/conversations` | List conversations |
+| POST | `/api/assistant/conversations` | Create conversation |
+| POST | `/api/assistant/conversations/:id/messages` | Stream AI response |
+| GET | `/api/career/plans` | Retrieve career plans |
+| POST | `/api/career/plans` | Generate career plan |
+| GET | `/api/skill-gap/reports` | Retrieve skill reports |
+| POST | `/api/skill-gap/reports` | Generate skill report |
+| GET | `/api/interviews` | Retrieve interviews |
+| POST | `/api/interviews` | Create interview |
+| POST | `/api/interviews/:id/questions/:questionId/answer` | Submit interview answer |
+| GET | `/api/reminders` | Retrieve notifications |
+| PATCH | `/api/reminders/:id/read` | Mark notification as read |
+| PATCH | `/api/reminders/read-all` | Mark all notifications as read |
+| — | `/api/inngest` | Inngest integration |
+
+---
+
+## ☁️ Deployment
+
+The recommended deployment architecture is:
+
+```text
+                 GITHUB
+                    |
+          ┌─────────┴─────────┐
+          ▼                   ▼
+       VERCEL               RENDER
+     Frontend             Backend
+                              |
+                              ▼
+                       MONGODB ATLAS
+                              |
+                              ▼
+                       AI PROVIDERS
+```
+
+### Frontend — Vercel
+
+| Setting | Value |
 |---|---|
+| Root Directory | `guidio-frontend` |
+| Framework | Vite |
+| Build Command | `npm run build` |
+| Output Directory | `dist` |
+| Node.js | 22.x |
 
-| GET /api/health | Health check (public). Used by Render. |
+Environment variables:
 
-| GET /api/users/me | Sync and return the signed-in user. |
+```env
+VITE_API_BASE_URL=https://your-backend.onrender.com
+VITE_CLERK_PUBLISHABLE_KEY=pk_test_...
+```
 
-| GET, PUT /api/profile | Read or save the student profile. |
+The included `guidio-frontend/vercel.json` handles single-page application routing.
 
-| GET /api/dashboard | Dashboard data. |
+### Backend — Render
 
-| GET, POST /api/assistant/conversations | List or create conversations. |
-
-| GET, DELETE /api/assistant/conversations/:id | Read or delete a conversation. |
-
-| POST /api/assistant/conversations/:id/messages | Send a message. The reply streams as Server-Sent Events. |
-
-| GET, POST /api/career/plans, GET /api/career/plans/:id | Career guidance plans. |
-
-| GET, POST /api/skill-gap/reports, GET /api/skill-gap/reports/:id | Skill gap reports. |
-
-| GET, POST /api/interviews, GET /api/interviews/:id | Mock interviews. |
-
-| POST /api/interviews/:id/questions/:questionId/answer | Submit an answer for AI feedback. |
-
-| GET /api/reminders, PATCH /api/reminders/:id/read, PATCH /api/reminders/read-all | Notifications. |
-
-| /api/inngest | Inngest endpoint for background functions. |
-
-Profile storage detail. The profile API stores education, college, degree, graduationYear, experienceLevel, targetRole, skills[] and interests[]. The frontend also collects a branch, programming languages and a field of study. Until the backend gets dedicated fields, the branch is saved inside degree as Degree | Branch, and languages are saved inside skills. The field of study is not saved: it only chooses which suggestions are shown, and is guessed again from the degree, branch and target role when a profile loads. The full name is saved to the Clerk account.
-Clerk Development Mode
-This project uses a Clerk Development instance (keys starting with pk_test_ and sk_test_).
-- A custom domain is not required for the current setup. Development instances work on localhost, LAN addresses and *.vercel.app URLs.
-- Do not switch to production mode or remove the Clerk integration unless you intend to move to a production instance with your own domain.
-- Development instances are meant for development and testing, and they have usage limits. Check Clerk's current documentation before sharing the app with many users.
-- Setup: create an application in the Clerk dashboard, enable the sign-in methods you want, then copy the publishable key (frontend and backend) and the secret key (backend only).
-AI providers and free-tier limitations
-Guidio AI tries Google Gemini first, then Groq, then an optional local Ollama model. If one is rate limited or down, the next is used automatically. Free access has per-model quotas and rate limits that providers can change at any time, so do not assume it is unlimited or guaranteed to stay free.
-
-What the app does about it:
-- Shows a clear message with a wait time when every provider is limited (HTTP 429), and pauses the send button instead of repeating failing requests.
-- Keeps what you typed.
-- Never shows invented usage numbers.
-- Keeps API keys on the server. They are never sent to the browser.
-Model names are set with GEMINI_MODEL and GROQ_MODEL in guidio-backend/.env. Providers retire models, so check Google AI Studio and the Groq deprecations page from time to time. Full details are in [README.md](guidio-backend/README.md).
-MongoDB configuration
-1. Create a free cluster in MongoDB Atlas.
-2. Database Access: create a database user with a strong password.
-3. Network Access: allow your current IP for local development. Render's free plan has no fixed outbound IP, so for the deployed backend you must allow 0.0.0.0/0. This is a trade-off: the database is then reachable from any IP, so keep the user's password strong and never reuse it.
-4. Connect → Drivers: copy the connection string and add a database name, for example:
-   
-   mongodb+srv://\<user>:\<password>@\<cluster>.mongodb.net/guidio-ai?retryWrites=true&w=majority
-   
-   If the password contains special characters, URL-encode them.
-5. Put it in guidio-backend/.env as DATABASE_URL.
-Deployment
-1. Push to GitHub
-See GitHub workflow. Make sure no .env file is committed.
-2. Backend on Render
-1. Render → New → Web Service → connect your GitHub repository.
-2. Settings:
-   | Setting | Value |
-   |---|---|
-   | Root Directory | guidio-backend |
-   | Runtime | Node |
-   | Build Command | npm ci && npx prisma generate |
-   | Start Command | npm start |
-   | Health Check Path | /api/health |
-   | Instance type | Free |
-3. Environment tab: add NODE_ENV=production, CORS_ORIGINS (your exact Vercel URL, no trailing slash), CLERK_SECRET_KEY, CLERK_PUBLISHABLE_KEY, DATABASE_URL, and at least one AI provider key (GEMINI_API_KEY and/or GROQ_API_KEY). Do not set PORT. Render provides it. Add the Inngest variables only if you use Inngest Cloud.
-4. Deploy, then open https://\<your-service>.onrender.com/api/health.
-3. Frontend on Vercel
-1. Vercel → Add New → Project → import the repository.
-2. Settings:
-   | Setting | Value |
-   |---|---|
-   | Root Directory | guidio-frontend |
-   | Framework Preset | Vite |
-   | Build Command | npm run build |
-   | Output Directory | dist |
-   | Node.js Version | 22.x (Project Settings → General) |
-3. Environment Variables: VITE_API_BASE_URL = your Render URL (no trailing slash) and VITE_CLERK_PUBLISHABLE_KEY.
-4. Deploy. guidio-frontend/vercel.json already rewrites every path to index.html, so refreshing on /dashboard works.
-4. Connect the two
-Set CORS_ORIGINS on Render to the exact Vercel URL (for example https://your-app.vercel.app), redeploy the backend, and test sign-in. The server uses the configured allowed origins; ensure your Vercel URL is included in CORS_ORIGINS.
-
-Environment variables changed in Vercel only apply to new deployments. Redeploy after changing them.
-GitHub workflow
-First-time setup from the project root:
-
-git init
-
-git add .
-
-git status
-
-Read the git status output. No .env, .env.local or node_modules should appear. Then:
-
-git commit -m "Initial commit"
-
-git branch -M main
-
-git remote add origin https://github.com/\<your-username>/\<your-repo>.git
-
-git push -u origin main
-
-Daily work:
-
-git checkout -b feature/short-name
-
-# ...make changes, test...
-
-npm run lint
-
-npm run build
-
-git add .
-
-git commit -m "Describe the change"
-
-git push -u origin feature/short-name
-
-Open a pull request on GitHub and merge into main. Vercel and Render redeploy automatically from main if auto-deploy is enabled.
-
-Check whether a real env file was ever tracked:
-
-git ls-files | findstr /i "\.env"
-
-Only .env.example files should appear. See Security notes if anything else does.
-Troubleshooting
-| Problem | Likely cause and fix |
-
+| Setting | Value |
 |---|---|
+| Root Directory | `guidio-backend` |
+| Runtime | Node |
+| Build Command | `npm ci && npx prisma generate` |
+| Start Command | `npm start` |
+| Health Check | `/api/health` |
 
-| Missing VITE_API_BASE_URL or Missing VITE_CLERK_PUBLISHABLE_KEY in the browser | guidio-frontend/.env.local is missing or misnamed. Restart npm run dev after editing it. |
+Configure the required backend environment variables in Render.
 
-| Missing required environment variable: ... when starting the server | Fill the variable in guidio-backend/.env. |
+Do not manually set the `PORT` variable; Render provides it automatically.
 
-| npm.ps1 cannot be loaded | See step 3 of Windows 11 setup. |
+### Database — MongoDB Atlas
 
-| Install or build errors mentioning the Node version | Update to Node 22.22 or newer. Check node -v. |
+Configure your database connection string through:
 
-| "Cannot reach the Guidio AI server" | Backend not running, wrong VITE_API_BASE_URL, or the Render free service is waking up (wait about a minute and retry). |
+```env
+DATABASE_URL=...
+```
 
-| Browser console shows a CORS error, or the server logs CORS BLOCKED | The frontend origin is not in the allowed list. Set CORS_ORIGINS (production) or FRONTEND_URL (LAN) to the exact origin, including http:// and the port, then restart the backend. |
+For production, configure appropriate database network access and use strong credentials.
 
-| 401 Unauthorized on every request | CLERK_SECRET_KEY or CLERK_PUBLISHABLE_KEY missing, or the frontend and backend use keys from different Clerk applications. |
+### Connect Frontend and Backend
 
-| Works on the laptop but not on the phone | VITE_API_BASE_URL still says localhost, the firewall is blocking ports 5173 or 5000, the laptop's IP changed, or the devices are on different Wi-Fi networks. |
+Set the backend's allowed frontend origin:
 
-| Prisma Client not found, or @prisma/client did not initialize yet | Run npx prisma generate in server. On Render, check the build command includes it. |
+```env
+CORS_ORIGINS=https://your-app.vercel.app
+```
 
-| Database connection errors | Wrong DATABASE_URL, unescaped special characters in the password, or your IP is not allowed in Atlas Network Access. |
+Make sure the URL exactly matches your deployed frontend origin.
 
-| AI says the limit was reached (429) | Every AI provider's free quota is used up. Wait and try again. The app keeps your text. |
+---
 
-| "AI service is not configured correctly" (503) | An AI key is missing, invalid, or the model name was retired. Check the AI variables on the server. |
+## 🛡️ Security
 
-| First request after a while is very slow | Render's free service goes to sleep when idle and needs time to wake up. |
+Guidio AI uses server-side handling for sensitive operations.
 
-| Blank page after deploying to Vercel | Check the browser console for missing VITE_ variables. Redeploy after adding them. |
+Security considerations include:
 
-| Refreshing /dashboard gives a 404 on Vercel | guidio-frontend/vercel.json must be present in the guidio-frontend folder. |
+- Clerk authentication verification.
+- Protected API routes.
+- Backend-only AI credentials.
+- Backend-only database access.
+- Request validation.
+- Rate limiting.
+- Security headers.
+- Environment-based configuration.
 
-| Theme flashes on page load | Hard-refresh (Ctrl+Shift+R) to clear the cached index.html. |
-Security notes
-- Keep secrets server-side only: CLERK_SECRET_KEY, GEMINI_API_KEY, GROQ_API_KEY, DATABASE_URL. Anything starting with VITE_ is public.
-- Never commit .env or .env.local. They are listed in .gitignore. Commit only .env.example files with placeholders.
-- If a real key was ever committed, shared in a chat, or uploaded anywhere, treat it as exposed and rotate it:
-  1. Clerk: dashboard → API keys → roll the secret key.
-  2. AI providers: revoke exposed Gemini and/or Groq keys in their provider dashboards and create new ones.
-  3. MongoDB Atlas: Database Access → change the user's password (or create a new user), then update DATABASE_URL.
-  4. Update the new values in guidio-backend/.env and in the Render environment, then redeploy.
-  5. Removing a file from Git does not remove it from history. Rotating the key is what protects you.
-- The frontend never connects to MongoDB or Gemini directly. All AI calls go through the authenticated API.
-- Protected API routes verify the Clerk session on every request.
-Free hosting limitations
-This project is designed to run on free tiers, but free tiers have limits and the providers can change them:
-- Render free services go to sleep after 15 minutes without traffic and take about a minute to start again. Scheduled background jobs depend on the server being reachable.
-- AI free tiers (Gemini, Groq) have limits and terms that can change. When all providers are limited, users see a wait message.
-- Clerk Development Mode is for development and demos: 100 users maximum, and session state travels in the URL, which Clerk says is not secure enough for production. Use a Clerk Production instance with your own domain before a public launch.
-- MongoDB Atlas free (M0) has storage and connection limits.
+If a real secret is exposed, revoke or rotate it immediately. Removing it from the latest commit does not remove it from Git history.
+
+---
+
+## 📚 Additional Documentation
+
+For more detailed implementation and setup instructions:
+
+| Documentation | Description |
+|---|---|
+| [Frontend README](guidio-frontend/README.md) | Frontend setup, scripts, and development |
+| [Backend README](guidio-backend/README.md) | Backend architecture, configuration, and API documentation |
+
+---
+
+## 🗺️ Future Roadmap
+
+Potential future improvements:
+
+- [ ] Production Clerk configuration.
+- [ ] Resume analysis.
+- [ ] Job recommendation system.
+- [ ] Advanced career analytics.
+- [ ] Dedicated academic branch and field-of-study fields.
+- [ ] More AI providers.
+- [ ] Expanded career paths.
+- [ ] Learning resource recommendations.
+- [ ] Student progress tracking.
+- [ ] Additional interview formats.
+- [ ] Mobile application.
+- [ ] Production-grade monitoring.
+
+---
+
+## 💡 Project Vision
+
+Guidio AI is built around a simple belief:
+
+> **Every student deserves clarity, direction, and the right tools to build a successful career.**
+
+The goal is not simply to provide AI-generated answers. It is to create a structured student-development experience that helps learners understand their current abilities, make informed career decisions, improve their skills, and prepare for real opportunities.
+
+**One platform. Multiple possibilities. A clearer path forward.**
+
+---
+
+## 🤝 Contributing
+
+Contributions, suggestions, and bug reports are welcome.
+
+1. Fork the repository.
+2. Create a feature branch.
+3. Make your changes.
+4. Run the available lint and build checks.
+5. Submit a Pull Request.
+
+```bash
+git checkout -b feature/your-feature
+git add .
+git commit -m "feat: describe your change"
+git push origin feature/your-feature
+```
+
+---
+
+## 📄 License
+
+Add your preferred license to the repository. For example, MIT License.
+
+---
+
+<div align="center">
+
+# 🎓 Guidio AI
+
+### Learn Smarter. Plan Better. Build Your Career.
+
+**Designed for students. Powered by AI. Built for the future.**
+
+<br />
+
+If you like this project, consider giving the repository a ⭐
+
+</div>
